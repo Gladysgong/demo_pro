@@ -9,25 +9,10 @@ from bs4 import BeautifulSoup
 import difflib
 
 
-# Create your views here.
-def auth(func):
-    def inner(request, *args, **kwargs):
-        login_url = "https://login.sogou-inc.com/?appid=1220&sso_redirect=http://webqa.web.sjs.ted/login&targetUrl="
-        try:
-            user_id = request.COOKIES.get('uid')
-            if not user_id:
-                return redirect(login_url)
-        except:
-            return redirect(login_url)
-        return func(request, *args, **kwargs)
-
-    return inner
 
 
-# @auth
 def debug(request):
     user_id = "zhangjingjun"
-    # user_id = request.COOKIES.get('uid')
     if request.method == 'GET':
         page = request.GET.get('page')
         current_page = 1
@@ -186,10 +171,8 @@ def debug_diff(request):
     return HttpResponse(json.dumps(ret))
 
 
-# @auth
 def debug_save(request):
     user_id = "zhangjingjun"
-    # user_id = request.COOKIES.get('uid')
     ret = {
         'status': True,
         'error': None,
@@ -215,7 +198,7 @@ def debug_save(request):
     return HttpResponse(json.dumps(ret))
 
 
-# @auth
+
 def debug_del(request):
     ret = {
         'status': True,
@@ -232,7 +215,7 @@ def debug_del(request):
     return HttpResponse(json.dumps(ret))
 
 
-# @auth
+
 def auto_cancel(request):
     ret = {'status': True, 'error': None, 'data': None}
     try:
@@ -244,10 +227,9 @@ def auto_cancel(request):
     return HttpResponse(json.dumps(ret))
 
 
-# @auth
+
 def auto_restart(request):
     user_id='zhangjingjun'
-    # user_id = request.COOKIES.get('uid')
     ret = {'status': True, 'error': None, 'data': None}
     re_add_task_id = request.POST.get('task_id')
     try:
