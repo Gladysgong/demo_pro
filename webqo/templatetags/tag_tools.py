@@ -34,7 +34,6 @@ def formatTime(intime):
 def formatIp(inip):
     ip = 'http://10.153.51.60:12000/xml'
     ip_list = inip.split('/')
-    # print(ip_list)
     return ip_list[2]
 
 @register.simple_tag
@@ -43,7 +42,6 @@ def formatStr(htmlStr):
     s = s.replace('nowrap="nowrap"','')
     with open('diff.html','w',encoding='utf-8') as fw:
         fw.write(htmlStr)
-    # print(s)
     return s
 
 @register.simple_tag
