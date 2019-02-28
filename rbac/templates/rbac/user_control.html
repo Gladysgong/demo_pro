@@ -1,0 +1,129 @@
+{% extends 'father.html' %}{% block content %}{% load static %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="tile">
+            <div class="widget-small primary coloured-icon"><i class="icon fa fa-search fa-2x"></i>
+                <li class="app-search">
+                    <input class="app-search__input" name="search_content" id="search_content" onkeydown='if(event.keyCode==13){search_btn.click()}' name="search_content" type="search" placeholder="Search Url">
+                    <a id="search_btn"><button class="app-search__button" ><i class="fa fa-search"></i></button></a>
+                </li>
+                <div class="info">
+                <span class="label label-info" style="font-size: 15px;cursor: pointer;line-height: 40px;">
+                	<a href="/rbac/users/?fl=" style="color: blue">All(全部)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                    <span class="label label-info" style="font-size: 15px;cursor: pointer;line-height: 40px;">
+                	姓名首字母:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                {% for letter in first_letter %}
+              	<span class="label label-info" style="font-size: 15px;cursor: pointer;line-height: 40px;">
+                	<a href="/rbac/users/?fl={{letter}}" style="">{{letter}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                {% endfor %}
+                
+            </div>
+            </div>
+            {% ifnotequal none_limit_num 0 %}
+            <div class="form-group">
+                <div class="form-group">
+                    <span class="label label-info" style="font-size: 15px;line-height: 40px;color: red">
+                	{{none_limit_num}}个未分配权限:&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                    {% for username in none_limit %}
+                    <span class="label label-info" style="font-size: 15px;line-height: 40px;">
+                        <a href="/rbac/users/?fn={{username}}" style="">{{ username }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endifnotequal %}
+			<h3 class="tile-title">用户管理</h3>
+			<div class="tile-body">
+				<!--<table class="table table-hover">
+					<thead>
+				    <tr>
+				        <td>用户名</td>
+				        <td>角色</td>
+				        <td colspan="2">操作</td>
+				    </tr>
+				    <thead>
+				    <tbody>
+				    {% for user in user_list %}
+				        <tr>
+				            <td>{{ user.username }}</td>
+				            <td>
+				                {% for item in user.roles.all %}
+				                <button class="btn btn-outline-success btn-sm" type="button">{{ item.title }}</button>
+				                {% endfor %}
+				            </td>
+				            <td><a href="/rbac/users/edit/{{ user.id }}">编辑</a></td>
+				            <td><a href="/rbac/users/delete/{{ user.id }}">删除</a></td>
+				        </tr>
+				    {% endfor %}
+				    <tbody>
+				</table>-->
+				
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<td>用户名</td>
+							<td>角色</td>
+							<td colspan="2">操作</td>
+						</tr>
+					</thead>
+					<tbody id="reqBody">
+						{% for user in li %}
+						<tr>
+							<td>{{user.username}}</td>
+							<td>
+								{% for item in user.roles.all %}
+				                <button class="btn btn-outline-success btn-sm" type="button">{{ item.title }}</button>
+				                {% endfor %}
+							</td>
+							<td><a href="/rbac/users/edit/{{ user.id }}">编辑</a></td>
+				            <td><a href="/rbac/users/delete/{{ user.id }}">删除</a></td>
+						</tr>
+						{% endfor %}
+					</tbody>		
+				</table>
+			</div>
+			<div class="tile-footer">
+        	<div class="row">
+            <div class="col-md-9 col-md-offset-2">
+            	<nav aria-label="Page navigation">
+					<ul class="pagination">
+			    		{{page_str}}
+					</ul>
+				</nav>
+            </div>
+         </div>        	
+        </div>
+			<div class="tile-footer">
+				<div class="row">
+					<div class="col-md-9 col-md-offset-2">
+						<a href="/rbac/users/new" ><button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>新增</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+{% endblock %}
+{% block js %}
+<script>	
+	$(function(){
+
+	    $(document).ready(function(){
+	       //点击链接的时候调用
+		      $("#search_btn").click(function(){
+		 
+		          //得到input的值
+		          var search_content = $("#search_content").val();
+		 
+		          //设置linkToCart的href的值
+		          $("#search_btn").attr("href","/rbac/users/?fn="+search_content);
+		      });
+		    });
+    })
+</script>
+{% endblock %}
+

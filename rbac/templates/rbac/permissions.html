@@ -1,0 +1,39 @@
+{% extends 'father.html' %}{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="tile">
+			<h3 class="tile-title">权限管理</h3>
+			<div class="tile-body">
+				<table class="table table-hover">
+					<thead>
+				    <tr>
+				        <td>权限</td>
+				        <td>url</td>
+				        <td>所属菜单</td>
+				        <td colspan="2">操作</td>
+				    </tr>
+				    </thead>
+				    <tbody>
+				    {% for permission in permission_list %}
+				        <tr>
+				            <td>{{ permission.title }}</td>
+				            <td>{{ permission.url }}</td>
+				            <td>{{ permission.menu }}</td>
+				            <td><a href="/rbac/permissions/edit/{{ permission.id }}">编辑</a></td>
+				            <td><a href="/rbac/permissions/delete/{{ permission.id }}">删除</a></td>
+				        </tr>
+				    {% endfor %}
+				    <tbody>
+				</table>
+			</div>
+			<div class="tile-footer">
+				<div class="row">
+					<div class="col-md-9 col-md-offset-2">
+						<a href="/rbac/permissions/new" ><button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>新增</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+{% endblock %}
