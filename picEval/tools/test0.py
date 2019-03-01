@@ -54,33 +54,38 @@ def post_image():
     module_path = os.path.dirname(__file__)+'/image'
     # os.mkdir(module_path)
     print(module_path)
+    pic_path = r'/Users/apple/AnacondaProjects/demo_pro/image/'
 
-    for filename in os.listdir(module_path):
+
+    for filename in os.listdir(pic_path):
         print(filename)
+        image_base64 = base64_image(pic_path+filename)
+        print(image_base64)
+        # headers = {"Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary0COmad6TmBUZmkWm"}
 
-    # image_base64 = base64_image(module_path)
-    # print(image_base64)
-    # # headers = {"Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary0COmad6TmBUZmkWm"}
-    #
-    # params = {
-    #     'from': 'zh-CHS',
-    #     'to': 'en',
-    #     'image': image_base64,
-    #     'result_type': 'image'
-    # }
-    # # resp = requests.post('http://10.143.52.35:10098/v4/ocr/json', data=params,headers=headers)
-    # resp = requests.post('http://api.image.sogou/v1/open/ocr_translate.json', data=params)
-    # result = resp.json()
-    # print("image", result)
-    #
-    # # result=json.dumps(resp.text)
-    # # print(result)
-    # pic = result['pic']
-    # pic = base64.b64decode(pic)
-    # print("pic", pic)
-    # file = open('timg_dest.jpg', 'wb')
-    # file.write(pic)
-    # file.close()
+        params = {
+            'from': 'zh-CHS',
+            'to': 'en',
+            'image': image_base64,
+            'result_type': 'image'
+        }
+        # resp = requests.post('http://10.143.52.35:10098/v4/ocr/json', data=params,headers=headers)
+        resp = requests.post('http://api.image.sogou/v1/open/ocr_translate.json', data=params)
+        result = resp.json()
+        print("image", result)
+
+        # result=json.dumps(resp.text)
+        # print(result)
+        pic = result['pic']
+        pic = base64.b64decode(pic)
+        print("pic", pic)
+        dd='/Users/apple/AnacondaProjects/demo_pro/result/'
+
+        if not os.path.exists(dd):
+            os.makedirs(dd)
+            file = open(dd+'timg_dest.jpg', 'wb')
+            file.write(pic)
+            file.close()
 
 
 if __name__ == '__main__':
