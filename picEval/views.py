@@ -33,20 +33,20 @@ def post1(request):
                                             test_ocrip=port_testocrip,
                                             base_ocrip=port_baseocrip, test_imgip=port_testimgip,
                                             base_imgip=port_baseimgip, testtag=port_tag)
-        ImageTaskInfo_id=resp.id
+        ImageTaskInfo_id = resp.id
         langs = port_langs.split('_')
         from_langs = langs[0]
         print(from_langs)
         to_langs = langs[1]
-        post_ocr(port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,to_langs)
+        post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs, to_langs)
 
         return render(request, 'picEval/post.html')
 
 
 def detail(request):
-    # if request.method=='POST':
-    #     result=models.ResultInfo.objects.all()
-    return render(request, 'picEval/detail.html')
+    if request.method == 'GET':
+        data = ResultInfo.objects.all()
+        return render(request, 'picEval/detail.html', {'result_info': data})
 
 # def base64_image(path):
 #     with open(path, 'rb') as f:

@@ -27,15 +27,24 @@ def imageTobase64(path):
         return image
 
 
-def post_ocr(test_ocrip, base_ocrip, test_imgip, base_imgip, from_langs, to_langs):
+def post_ocr(ImageTaskInfo_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_langs, to_langs):
     headers = {
         'Content-Type': "application/x-www-form-urlencoded",
     }
 
-    pic_path = r'/Users/apple/AnacondaProjects/demo_pro/image/'
-    sum_num = len(os.listdir(pic_path))
-    for filename in os.listdir(pic_path):
-        base64image = imageTobase64(pic_path + filename)
+    origin_rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
+    origin_secpath = r'/static/origin/'
+
+
+    sum_num = len(os.listdir(origin_rootpath+origin_secpath))
+
+    failed = 0
+    finished = 0
+
+    ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(sum_num=sum_num)
+
+    for filename in os.listdir(origin_rootpath+origin_secpath):
+        base64image = imageTobase64(origin_rootpath+origin_secpath + filename)
         params_ocr = {
             'lang': from_langs,
             'image': base64image,
@@ -43,13 +52,22 @@ def post_ocr(test_ocrip, base_ocrip, test_imgip, base_imgip, from_langs, to_lang
         resp_test = requests.post(test_ocrip, data=params_ocr, headers=headers)
         resp_base = requests.post(base_ocrip, data=params_ocr, headers=headers)
 
-        post_image(from_langs, to_langs, base64image, test_imgip, filename, 'test')
-        post_image(from_langs, to_langs, base64image, base_imgip, filename, 'base')
+        ocr_test = resp_test.json()
+        ocr_base = resp_base.json()
+        if (ocr_test['success'] == int(1) & ocr_base['success'] == int(1)):
+            finished += 1
+            ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(finished=finished)
+        else:
+            failed += 1
+            ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(failed=failed)
 
-        result_test = resp_test.json()
-        result_base = resp_base.json()
+        resp = ResultInfo.objects.create(taskid_id=int(ImageTaskInfo_id), testImg=origin_secpath + filename)
+        ResultInfo_id = resp.id
 
-        distance(result_test, result_base)
+        post_image(ResultInfo_id, from_langs, to_langs, base64image, test_imgip, filename, 'test')
+        post_image(ResultInfo_id, from_langs, to_langs, base64image, base_imgip, filename, 'base')
+
+        distance(ocr_test, ocr_base)
 
         # y = x['result']
         # for i in y:
@@ -66,7 +84,7 @@ def post_ocr(test_ocrip, base_ocrip, test_imgip, base_imgip, from_langs, to_lang
     return sum_num
 
 
-def post_image(from_langs, to_langs, base64image, url, filename, type):
+def post_image(ResultInfo_id, from_langs, to_langs, base64image, url, filename, type):
     # module_path = os.path.dirname(__file__)
     # print(module_path)
     # pic_path = r'/Users/apple/AnacondaProjects/demo_pro/image/'
@@ -82,27 +100,35 @@ def post_image(from_langs, to_langs, base64image, url, filename, type):
         'image': base64image,
         'result_type': 'image'
     }
+
     # resp = requests.post('http://api.image.sogou/v1/open/ocr_translate.json', data=params_img)
     resp = requests.post(url, data=params_img)
     result = resp.json()
-    print("image", result)
     pic = result['pic']
     pic = base64.b64decode(pic)
-    result_path = '/Users/apple/AnacondaProjects/demo_pro/result/'
-    if not os.path.exists(result_path):
-        os.makedirs(result_path)
+    root_path = '/Users/apple/AnacondaProjects/demo_pro'
+    sec_path = '/static/dest/'
+
+    if not os.path.exists(root_path + sec_path):
+        os.makedirs(root_path + sec_path)
+
+    if result['success'] == int(1):
         filename = filename[:-4]
         if type == 'test':
-            file = open(result_path + filename + '_test.jpg', 'wb')
+            file = open(root_path + sec_path + filename + '_test.jpg', 'wb')
+            path = sec_path + filename + '_test.jpg'
             file.write(pic)
+            ResultInfo.objects.filter(id=ResultInfo_id).update(testpath=path)
             file.close()
         elif type == 'base':
-            file = open(result_path + filename + '_base.jpg', 'wb')
+            file = open(root_path + sec_path + filename + '_base.jpg', 'wb')
+            path = sec_path + filename + '_base.jpg'
             file.write(pic)
+            ResultInfo.objects.filter(id=ResultInfo_id).update(basepath=path)
             file.close()
         else:
             print('回帖图请求类型未知！')
-    return result
+    return 0
 
 
 def distance(result_test, result_base):

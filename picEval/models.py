@@ -46,7 +46,7 @@ class ImageTaskInfo(models.Model):
 
 
 class ResultInfo(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     testImg = models.CharField(max_length=500, default="")
     basepath = models.CharField(max_length=500, default="")
     testpath = models.CharField(max_length=500, default="")
