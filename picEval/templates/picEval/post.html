@@ -91,19 +91,29 @@
                                                placeholder="password">
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label class="control-label">测试数据</label>
-                                        <input class="form-control" type="text" id="deploy_data" name="deploy_password"
-                                               placeholder="IP">
+                                        <label class="control-label">数据IP</label>
+                                        <input class="form-control" type="text" id="source_ip" name="source_ip"
+                                               placeholder="数据Ip">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label class="control-label">数据路径</label>
-                                        <input class="form-control" type="text" id="deploy_datapath"
-                                               name="deploy_password"
-                                               placeholder="Path">
+                                        <input class="form-control" type="text" id="source_path"
+                                               name="source_path"
+                                               placeholder="数据路径">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">数据用户</label>
+                                        <input class="form-control" type="text" id="source_user" name="source_user"
+                                               placeholder="username">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">数据密码</label>
+                                        <input class="form-control" type="text" id="source_pwd"
+                                               name="source_pwd" placeholder="password">
                                     </div>
                                     <div class="form-group col-md-12">
                                         语种选择 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div class="form-check">
+                                        <div class="form-check" id="deploy_check">
                                             <label class="deploy_check form-check-label col-md-12">
                                                 <input class="form-check-input" type="checkbox">en-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <input class="form-check-input" type="checkbox">zh-en &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -243,8 +253,74 @@
             }
         } else {
             console.log('false')
-        }
+            var deploy_ip = $('#deploy_ip').val()
+            var deploy_path = $('#deploy_path').val()
+            var deploy_username = $('#deploy_username').val()
+            var deploy_password = $('#deploy_password').val()
 
+            var source_ip = $('#source_ip').val()
+            var source_path = $('#source_path').val()
+            var source_user = $('#source_user').val()
+            var source_pwd = $('#source_pwd').val()
+
+            var deploy_check = []
+            $('input[type=checkbox]:checked').each(function () {
+                deploy_check.push($(this).val())
+            })
+            var deploy_tag = $('#deploy_tag').val()
+
+            if (deploy_ip != '' && deploy_path != '' && deploy_username != '' && deploy_password != '' && source_ip != '' && source_path != '' && source_user != '' && source_pwd != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/picEval/pic/",
+                    async: true,
+                    traditional: true,
+                    data: {
+                        'deploy_ip': deploy_ip,
+                        'deploy_path': deploy_path,
+                        'deploy_username': deploy_username,
+                        'deploy_password': deploy_password,
+                        'source_ip': source_ip,
+                        'source_path': source_path,
+                        'source_user': source_user,
+                        'source_pwd': source_pwd,
+                        'deploy_check': deploy_check,
+                        'deploy_tag': deploy_tag,
+                        'env_type': 1,
+                    },
+                    dataType: 'JSON',
+                    success: function (ret) {
+                        if (ret.status) {
+                            console.log('success!')
+                        } else {
+                            $('#error_xml').text(ret.error)
+                        }
+                    }
+                })
+            } else {
+                if (deploy_ip == '') {
+                    $('#error_xml').text('部署位置-IP不可为空');
+                } else if (deploy_path == '') {
+                    $('#error_xml').text('部署路径-Path不可为空');
+                } else if (deploy_username == '') {
+                    $('#error_xml').text('用户名-username不可为空');
+                } else if (deploy_password == '') {
+                    $('#error_xml').text('密码-password不可为空');
+                } else if (source_ip == '') {
+                    $('#error_xml').text('数据ip不可为空');
+                } else if (source_path == '') {
+                    $('#error_xml').text('数据路径不可为空');
+                }else if (source_user == '') {
+                    $('#error_xml').text('数据user不可为空');
+                } else if (source_pwd == '') {
+                    $('#error_xml').text('数据密码不可为空');
+                }else if (deploy_check == '') {
+                    $('#error_xml').text('语种不可为空');
+                } else {
+                    $('#error_xml').text('未知错误');
+                }
+            }
+        }
     })
 
     //diff
