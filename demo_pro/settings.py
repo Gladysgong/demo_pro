@@ -78,9 +78,16 @@ WSGI_APPLICATION = 'demo_pro.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'demo_pro',
+        'USER': 'root',
+        'PASSWORD': 'Websearch@qa66',
+        'HOST': '10.144.120.30',
+        'PORT': '3306',
+        'OPTIONS': {
+            'autocommit': True,
+        },
+    },
 }
 
 
