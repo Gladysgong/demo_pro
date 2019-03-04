@@ -57,7 +57,7 @@ def post_ocr(ImageTaskInfo_id, test_ocrip, base_ocrip, test_imgip, base_imgip, f
         test_issuccess = ocr_test['success']
         base_issuccess = ocr_base['success']
 
-        if (ocr_test['success'] == int(1) & ocr_base['success'] == int(1)):
+        if (test_issuccess == int(1) & base_issuccess == int(1)):
             finished += 1
             ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(finished=finished)
 
