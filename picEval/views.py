@@ -29,16 +29,16 @@ def post1(request):
             port_baseimgip = request.POST.get('port_baseimgip')
             port_langs = request.POST.get('port_langs')
             port_tag = request.POST.get('port_tag')
+            port_status = 7
 
             user = UserInfo.objects.get(username='gongyanli')
-            resp = ImageTaskInfo.objects.create(username=user, env_type=env_type, langs=port_langs,
-                                                test_ocrip=port_testocrip,
-                                                base_ocrip=port_baseocrip, test_imgip=port_testimgip,
+            resp = ImageTaskInfo.objects.create(username=user, env_type=env_type, status=port_status, langs=port_langs,
+                                                test_ocrip=port_testocrip, base_ocrip=port_baseocrip,
+                                                test_imgip=port_testimgip,
                                                 base_imgip=port_baseimgip, testtag=port_tag)
             ImageTaskInfo_id = resp.id
             langs = port_langs.split('_')
             from_langs = langs[0]
-            print(from_langs)
             to_langs = langs[1]
             post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
                      to_langs)
@@ -63,22 +63,25 @@ def post1(request):
                                                 testtag=deploy_tag)
 
             ImageTaskInfo_id = resp.id
-            langs = port_langs.split('_')
-            from_langs = langs[0]
-            print(from_langs)
-            to_langs = langs[1]
-            post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
-                     to_langs)
+            print('deploy_check', deploy_check)
+
+            # langs = port_langs.split('_')
+            # from_langs = langs[0]
+            # print(from_langs)
+            # to_langs = langs[1]
+            # post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
+            #          to_langs)
         else:
             print('未知评测类型！')
 
         return render(request, 'picEval/post.html')
 
 
-def detail(request):
+def detail(request,task_id):
     if request.method == 'GET':
-        data = ResultInfo.objects.all()
-        return render(request, 'picEval/detail.html', {'result_info': data})
+        result = ResultInfo.objects.filter(taskid_id=task_id)
+        imageTask = ImageTaskInfo.objects.filter(id=task_id)
+        return render(request, 'picEval/detail.html', {'Result': result, 'ImageTask': imageTask})
 
 # def base64_image(path):
 #     with open(path, 'rb') as f:
