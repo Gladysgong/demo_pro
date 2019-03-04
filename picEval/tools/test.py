@@ -35,16 +35,15 @@ def post_ocr(ImageTaskInfo_id, test_ocrip, base_ocrip, test_imgip, base_imgip, f
     origin_rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
     origin_secpath = r'/static/origin/'
 
-
-    sum_num = len(os.listdir(origin_rootpath+origin_secpath))
+    sum_num = len(os.listdir(origin_rootpath + origin_secpath))
 
     failed = 0
     finished = 0
 
     ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(sum_num=sum_num)
 
-    for filename in os.listdir(origin_rootpath+origin_secpath):
-        base64image = imageTobase64(origin_rootpath+origin_secpath + filename)
+    for filename in os.listdir(origin_rootpath + origin_secpath):
+        base64image = imageTobase64(origin_rootpath + origin_secpath + filename)
         params_ocr = {
             'lang': from_langs,
             'image': base64image,
@@ -54,14 +53,20 @@ def post_ocr(ImageTaskInfo_id, test_ocrip, base_ocrip, test_imgip, base_imgip, f
 
         ocr_test = resp_test.json()
         ocr_base = resp_base.json()
+
+        test_issuccess = ocr_test['success']
+        base_issuccess = ocr_base['success']
+
         if (ocr_test['success'] == int(1) & ocr_base['success'] == int(1)):
             finished += 1
             ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(finished=finished)
+
         else:
             failed += 1
             ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(failed=failed)
 
-        resp = ResultInfo.objects.create(taskid_id=int(ImageTaskInfo_id), testImg=origin_secpath + filename)
+        resp = ResultInfo.objects.create(taskid_id=int(ImageTaskInfo_id), testImg=origin_secpath + filename,
+                                         test_status=test_issuccess, base_status=base_issuccess)
         ResultInfo_id = resp.id
 
         post_image(ResultInfo_id, from_langs, to_langs, base64image, test_imgip, filename, 'test')
