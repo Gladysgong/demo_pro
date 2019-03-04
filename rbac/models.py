@@ -42,7 +42,7 @@ class UserInfo(models.Model):
     roles = models.ManyToManyField("Role")
 
 
-    def __str__(self):
-        return self.nickname
+    # def __str__(self):
+    #     return self.nickname
 
 
