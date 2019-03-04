@@ -21,4 +21,5 @@ urlpatterns = [
     re_path(r'favicon.ico', RedirectView.as_view(url=r'static/favicon.ico')),
     re_path('admin/', admin.site.urls),
     re_path(r'webqo/', include('webqo.urls')),
+    re_path(r'picEval/', include('picEval.urls')),
 ]
