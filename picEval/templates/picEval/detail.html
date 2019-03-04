@@ -18,13 +18,14 @@
                     </tr>
                     </thead>
                     <tbody id="resultBody">
-                    {% for item in req_lst %}
+                    {% for item in ImageTask %}
                     <tr req_id="{{ item.id }}" class="get_resultBody">
-                        <td style="display: none;">{{ item.press_qps }}</td>
-                        <td style="display: none;">{{ item.press_time }}</td>
-                        <td style="display: none;">{{ item.query_ip }}</td>
-                        <td style="display: none;">{{ item.query_user }}</td>
-                        <td style="display: none;">{{ item.query_pwd }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.start_time }}</td>
+                        <td>{{ item.failed }}</td>
+                        <td>{{ item.finished }}</td>
+                        <td>位置</td>
+
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -34,7 +35,7 @@
 
                     </thead>
                     <tbody id="resultBody1">
-                    {% for item in result_info %}
+                    {% for item in Result %}
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td><img src=" {{ item.testImg }} "></td>
                         <td><img src=" {{ item.basepath }} "></td>
@@ -44,8 +45,8 @@
                     </tbody>
                 </table>
                 <!--<div class="form-group col-md-12">-->
-                    <!--原图-->
-                    <!--<img src="/static/images/timg1.jpg">-->
+                <!--原图-->
+                <!--<img src="/static/images/timg1.jpg">-->
                 <!--</div>-->
                 <!--<div class="form-group col-md-12">test回贴图</div>-->
                 <!--<div class="form-group col-md-12">base回贴图</div>-->
