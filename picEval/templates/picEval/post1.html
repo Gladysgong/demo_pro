@@ -1,0 +1,379 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="tile">
+            <div class="tile-body">
+                <h3 class="tile-title">请求添加&nbsp;&nbsp;&nbsp;<span style="color:red;font-size:15px;"
+                                                                   id="error_xml"></span></h3>
+                <div class="bs-component" id="diff">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#port_eval">端口评测</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#deploy_eval">部署评测</a></li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade active show" id="port_eval">
+                            <div id="result_port">
+                                <form class="row" id="port_xml" action="." method="POST" data-value="2">
+                                    {% csrf_token %}
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">Test</label>
+                                        <input class="form-control" type="text" id="port_testocrip"
+                                               name="port_testocrip"
+                                               placeholder="ocr:IP:port">
+                                        <input class="form-control" type="text" id="port_testimgip"
+                                               name="port_testimgip"
+                                               placeholder="回帖图:IP:port">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">Base</label>
+                                        <input class="form-control" type="text" id="port_baseocrip"
+                                               name="port_baseocrip"
+                                               placeholder="ocr:IP:port">
+                                        <input class="form-control" type="text" id="port_baseimgip"
+                                               name="port_baseimgip"
+                                               placeholder="回帖图:IP:port">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>langs</label>
+                                        <select class="form-control" id="port_langs">
+                                            <option>en</option>
+                                            <option>ja</option>
+                                            <option>ko</option>
+                                            <option>ru</option>
+                                            <option>fr</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-12 form-check">
+                                        <label class="form-check-label col-md-6">
+                                            <input class="form-check-input" id="port_radio1" type="radio"
+                                                   name="optionsRadios" value="zh-to" checked="">zh-to
+                                        </label>
+                                        <label class="form-check-label col-md-6">
+                                            <input class="form-check-input" id="port_radio2" type="radio"
+                                                   name="optionsRadios" value="from-zh">from-zh
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">备注信息</label>
+                                        <input class="form-control" type="text" id="port_tag" name="port_tag"
+                                               placeholder="tag">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="deploy_eval">
+                            <div id="result_deploy">
+                                <form class="row" id="deploy_xml" action="." method="POST" data-value="1">
+                                    {% csrf_token %}
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">部署位置</label>
+                                        <input class="form-control" type="text" id="deploy_ip" name="deploy_ip"
+                                               value="IP">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">部署路径</label>
+                                        <input class="form-control" type="text" id="deploy_path" name="deploy_path"
+                                               placeholder="Path">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">用户名</label>
+                                        <input class="form-control" type="text" id="deploy_username"
+                                               name="deploy_username"
+                                               value="username">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">密码</label>
+                                        <input class="form-control" type="text" id="deploy_password"
+                                               name="deploy_password"
+                                               placeholder="password">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">数据IP</label>
+                                        <input class="form-control" type="text" id="source_ip" name="source_ip"
+                                               placeholder="数据Ip">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">数据路径</label>
+                                        <input class="form-control" type="text" id="source_path"
+                                               name="source_path"
+                                               placeholder="数据路径">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">数据用户</label>
+                                        <input class="form-control" type="text" id="source_user" name="source_user"
+                                               placeholder="username">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">数据密码</label>
+                                        <input class="form-control" type="text" id="source_pwd"
+                                               name="source_pwd" placeholder="password">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        语种选择 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div class="form-check" id="deploy_check">
+                                            <label class="deploy_check form-check-label col-md-12">
+                                                <input class="form-check-input" type="checkbox">en-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">zh-en &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">ja-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">zh-ja &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">Ko-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </label>
+                                            <label class="deploy_check form-check-label col-md-12">
+                                                <input class="form-check-input" type="checkbox">zh-ko &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">ru-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">zh-ru &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">fr-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox">zh-fr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="control-label">备注信息</label>
+                                        <input class="form-control" type="text" id="deploy_tag" name="deploy_tag"
+                                               placeholder="tag">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tile-footer">
+                <button class="btn btn-primary" id="add_task" type="button"><i
+                        class="fa fa-fw fa-lg fa-check-circle"></i>添加任务
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tile" style="height: 690px;overflow-y: scroll">
+            <h3 class="tile-title">任务列表</h3>
+            <table class="table" id="reqData">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>语言</th>
+                    <th>failed</th>
+                    <th>finished</th>
+                    <th>status</th>
+                    <th>user</th>
+                    <th>ctrl</th>
+                </tr>
+                </thead>
+                <tbody id="reqBody">
+                {% for item in result_image %}
+                <tr req_id="{{ item.id }}" class="get_data">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.start_time}}</td>
+                    <td>{{ item.end_time}}</td>
+                    <td>{{ item.langs }}</td>
+                    <td>{{ item.failed }}</td>
+                    <td>{{ item.finished }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.username_id }}</td>
+                    <td>
+                        <a href="/picEval/pic/detail_{{ item.id }}.html">详情</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {{ page_str }}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    //query
+    $('#add_task').click(function () {
+
+        var select = $('#port_eval').attr('class')
+        if (select == 'tab-pane fade active show') {
+            console.log('true')
+            var port_testocrip = $('#port_testocrip').val()
+            var port_baseocrip = $('#port_baseocrip').val()
+
+            var port_testimgip = $('#port_testimgip').val()
+            var port_baseimgip = $('#port_baseimgip').val()
+
+            var temp_langs = $('#port_langs').val()
+            var radio_checkd = $('input[type=radio]:checked').val()
+            var port_langs
+            if (radio_checkd == 'zh-to') {
+                port_langs = 'zh-CHS_' + temp_langs
+            } else {
+                port_langs = temp_langs + '_zh-CHS'
+            }
+
+            var port_tag = $('#port_tag').val()
+
+            if (port_testocrip != '' && port_baseocrip != '' && port_testimgip != '' && port_baseimgip != '' && port_langs != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/picEval/pic/",
+                    async: true,
+                    traditional: true,
+                    data: {
+                        'port_testocrip': port_testocrip,
+                        'port_baseocrip': port_baseocrip,
+                        'port_testimgip': port_testimgip,
+                        'port_baseimgip': port_baseimgip,
+                        'port_langs': port_langs,
+                        'port_tag': port_tag,
+                        'env_type': 2,
+                    },
+                    dataType: 'JSON',
+                    success: function (ret) {
+                        if (ret.status) {
+                            console.log('success!')
+                        } else {
+                            $('#error_xml').text(ret.error)
+                        }
+                    }
+
+                })
+            } else {
+                if (port_testip == '') {
+                    $('#error_xml').text('test-IP不可为空');
+                } else if (port_baseip == '') {
+                    $('#error_xml').text('base-IP不可为空');
+                } else {
+                    $('#error_xml').text('未知错误');
+                }
+            }
+        } else {
+            console.log('false')
+            var deploy_ip = $('#deploy_ip').val()
+            var deploy_path = $('#deploy_path').val()
+            var deploy_username = $('#deploy_username').val()
+            var deploy_password = $('#deploy_password').val()
+
+            var source_ip = $('#source_ip').val()
+            var source_path = $('#source_path').val()
+            var source_user = $('#source_user').val()
+            var source_pwd = $('#source_pwd').val()
+
+            var deploy_check = []
+            $('input[type=checkbox]:checked').each(function () {
+                deploy_check.push($(this).val())
+            })
+            var deploy_tag = $('#deploy_tag').val()
+
+            if (deploy_ip != '' && deploy_path != '' && deploy_username != '' && deploy_password != '' && source_ip != '' && source_path != '' && source_user != '' && source_pwd != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/picEval/pic/",
+                    async: true,
+                    traditional: true,
+                    data: {
+                        'deploy_ip': deploy_ip,
+                        'deploy_path': deploy_path,
+                        'deploy_username': deploy_username,
+                        'deploy_password': deploy_password,
+                        'source_ip': source_ip,
+                        'source_path': source_path,
+                        'source_user': source_user,
+                        'source_pwd': source_pwd,
+                        'deploy_check': deploy_check,
+                        'deploy_tag': deploy_tag,
+                        'env_type': 1,
+                    },
+                    dataType: 'JSON',
+                    success: function (ret) {
+                        if (ret.status) {
+                            console.log('success!')
+                        } else {
+                            $('#error_xml').text(ret.error)
+                        }
+                    }
+                })
+            } else {
+                if (deploy_ip == '') {
+                    $('#error_xml').text('部署位置-IP不可为空');
+                } else if (deploy_path == '') {
+                    $('#error_xml').text('部署路径-Path不可为空');
+                } else if (deploy_username == '') {
+                    $('#error_xml').text('用户名-username不可为空');
+                } else if (deploy_password == '') {
+                    $('#error_xml').text('密码-password不可为空');
+                } else if (source_ip == '') {
+                    $('#error_xml').text('数据ip不可为空');
+                } else if (source_path == '') {
+                    $('#error_xml').text('数据路径不可为空');
+                }else if (source_user == '') {
+                    $('#error_xml').text('数据user不可为空');
+                } else if (source_pwd == '') {
+                    $('#error_xml').text('数据密码不可为空');
+                }else if (deploy_check == '') {
+                    $('#error_xml').text('语种不可为空');
+                } else {
+                    $('#error_xml').text('未知错误');
+                }
+            }
+        }
+    })
+
+    //diff
+    $('#start_diff').click(function () {
+        var query = $('#query').val()
+        var query_from = $('#query_from').val()
+        var inputHost = $('#inputHost').val()
+        var inputExpId = $('#inputExpId').val()
+
+        var inputHost_diff = $('#inputHost_diff').val()
+        var inputExpId_diff = $('#inputExpId_diff').val()
+        var query_from_diff = $('#query_from_diff').val()
+
+        if (query != "" && inputHost != "" && inputHost_diff != "") {
+            $.ajax({
+                type: "POST",
+                url: "/webqo/debug/diff",
+                async: true,
+                traditional: true,
+                data: {
+                    'inputHost': inputHost,
+                    'inputExpId': inputExpId,
+                    'query_from': query_from,
+                    'query': query,
+                    'inputHost_diff': inputHost_diff,
+                    'inputExpId_diff': inputExpId_diff,
+                    'query_from_diff': query_from_diff
+                },
+                dataType: 'JSON',
+                success: function (ret) {
+                    if (ret.status) {
+                        $('#result').hide()
+                        $('#result_diff').show()
+                        $('#result_diff').html(ret.data)
+                    } else {
+                        $('#error_xml').text(ret.error)
+                    }
+                },
+                error: function () {
+                },
+            });
+            $('#error_xml').text('');
+        } else {
+            if (query == '') {
+                $('#error_xml').text('Request不可为空');
+            } else if (inputHost == '') {
+                $('#error_xml').text('Host不可为空');
+            } else {
+                $('#error_xml').text('未知错误');
+            }
+        }
+    })
+</script>
+{% endblock %}
+
+

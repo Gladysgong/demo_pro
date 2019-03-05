@@ -43,23 +43,14 @@ def post1(request):
             post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
                      to_langs)
         elif env_type == '1':
-            deploy_ip = request.POST.get('deploy_ip')
+            deploy_ip = '10.141.177.27'
             deploy_path = request.POST.get('deploy_path')
-            deploy_username = request.POST.get('deploy_username')
-            deploy_password = request.POST.get('deploy_password')
-            source_ip = request.POST.get('source_ip')
-            source_path = request.POST.get('source_path')
-            source_user = request.POST.get('source_user')
-            source_pwd = request.POST.get('source_pwd')
             deploy_check = request.POST.get('deploy_check')
             deploy_tag = request.POST.get('deploy_tag')
 
             user = UserInfo.objects.get(username='gongyanli')
             resp = ImageTaskInfo.objects.create(username=user, env_type=env_type, langs=deploy_check,
                                                 svIp=deploy_ip, svPath=deploy_path,
-                                                svUser=deploy_username, svPass=deploy_password,
-                                                sourceIP=source_ip, sourcePath=source_path,
-                                                sourceUser=source_user, sourcePass=source_pwd,
                                                 testtag=deploy_tag)
 
             ImageTaskInfo_id = resp.id

@@ -65,51 +65,195 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="deploy_eval">
-                            <div id="result_deploy">
+                            <div id="result_deploy" class="tile">
                                 <form class="row" id="deploy_xml" action="." method="POST" data-value="1">
                                     {% csrf_token %}
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">部署位置</label>
-                                        <input class="form-control" type="text" id="deploy_ip" name="deploy_ip"
-                                               value="IP">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy1" type="text" id="deploy_path1"
+                                                       name="deploy_path1"
+                                                       value="/search/odin/test/offline/tf_ocr_daemon" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy1" type="text" id="source_ip1"
+                                                       name="source_ip1"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy1" type="text" id="source_path1"
+                                                       name="source_path1"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">部署路径</label>
-                                        <input class="form-control" type="text" id="deploy_path" name="deploy_path"
-                                               placeholder="Path">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy2" type="text" id="deploy_path2"
+                                                       name="deploy_path2"
+                                                       value="/search/odin/test/offline/tf_model_server" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy2" type="text" id="source_ip2"
+                                                       name="source_ip2"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy2" type="text" id="source_path2"
+                                                       name="source_path2"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">用户名</label>
-                                        <input class="form-control" type="text" id="deploy_username"
-                                               name="deploy_username"
-                                               value="username">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy3" type="text" id="deploy_path3"
+                                                       name="deploy_path3"
+                                                       value="/search/odin/test/offline/tf_detect" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy3" type="text" id="source_ip3"
+                                                       name="source_ip3"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy3" type="text" id="source_path3"
+                                                       name="source_path3"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">密码</label>
-                                        <input class="form-control" type="text" id="deploy_password"
-                                               name="deploy_password"
-                                               placeholder="password">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy4" type="text" id="deploy_path4"
+                                                       name="deploy_path4"
+                                                       value="/search/odin/test/offline/ocr_hub" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy4" type="text" id="source_ip4"
+                                                       name="source_ip4"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy4" type="text" id="source_path4"
+                                                       name="source_path4"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">数据IP</label>
-                                        <input class="form-control" type="text" id="source_ip" name="source_ip"
-                                               placeholder="数据Ip">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy5" type="text" id="deploy_path5"
+                                                       name="deploy_path5"
+                                                       value="/search/odin/test/offline/ocr_translate/ocr_trans_latest"
+                                                       disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy5" type="text" id="source_ip5"
+                                                       name="source_ip5"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy5" type="text" id="source_path5"
+                                                       name="source_path5"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">数据路径</label>
-                                        <input class="form-control" type="text" id="source_path"
-                                               name="source_path"
-                                               placeholder="数据路径">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy6" type="text" id="deploy_path6"
+                                                       name="deploy_path6"
+                                                       value="/search/odin/test/offline/ocr_translate/tagent" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy6" type="text" id="source_ip6"
+                                                       name="source_ip6"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy6" type="text" id="source_path6"
+                                                       name="source_path6"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">数据用户</label>
-                                        <input class="form-control" type="text" id="source_user" name="source_user"
-                                               placeholder="username">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy7" type="text" id="deploy_path7"
+                                                       name="deploy_path7"
+                                                       value="/search/odin/test/offline/ocr_translate/img_trans"
+                                                       disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy7" type="text" id="source_ip7"
+                                                       name="source_ip7"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy7" type="text" id="source_path7"
+                                                       name="source_path7"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">数据密码</label>
-                                        <input class="form-control" type="text" id="source_pwd"
-                                               name="source_pwd" placeholder="password">
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">部署位置</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy8" type="text" id="deploy_path8"
+                                                       name="deploy_path8"
+                                                       value="/search/odin/test/offline/ocr_translate/http_gateway"
+                                                       disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy8" type="text" id="source_ip8"
+                                                       name="source_ip8"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy8" type="text" id="source_path8"
+                                                       name="source_path8"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         语种选择 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -253,15 +397,40 @@
             }
         } else {
             console.log('false')
-            var deploy_ip = $('#deploy_ip').val()
-            var deploy_path = $('#deploy_path').val()
-            var deploy_username = $('#deploy_username').val()
-            var deploy_password = $('#deploy_password').val()
 
-            var source_ip = $('#source_ip').val()
-            var source_path = $('#source_path').val()
-            var source_user = $('#source_user').val()
-            var source_pwd = $('#source_pwd').val()
+            var jsons = {}
+            jsons.deploy1 = ''
+            jsons.deploy2 = ''
+            jsons.deploy3 = ''
+            jsons.deploy4 = ''
+            jsons.deploy5 = ''
+            jsons.deploy6 = ''
+            jsons.deploy7 = ''
+            jsons.deploy8 = ''
+            $('.deploy1').each(function () {
+                jsons.deploy1 = jsons.deploy1 + $(this).val() + ','
+            })
+            $('.deploy2').each(function () {
+                jsons.deploy2 = jsons.deploy2 + $(this).val() + ','
+            })
+            $('.deploy3').each(function () {
+                jsons.deploy3 = jsons.deploy3 + $(this).val() + ','
+            })
+            $('.deploy4').each(function () {
+                jsons.deploy4 = jsons.deploy4 + $(this).val() + ','
+            })
+            $('.deploy5').each(function () {
+                jsons.deploy5 = jsons.deploy5 + $(this).val() + ','
+            })
+            $('.deploy6').each(function () {
+                jsons.deploy6 = jsons.deploy6 + $(this).val() + ','
+            })
+            $('.deploy7').each(function () {
+                jsons.deploy7 = jsons.deploy7 + $(this).val() + ','
+            })
+            $('.deploy8').each(function () {
+                jsons.deploy8 = jsons.deploy8 + $(this).val() + ','
+            })
 
             var deploy_check = []
             $('input[type=checkbox]:checked').each(function () {
@@ -269,21 +438,14 @@
             })
             var deploy_tag = $('#deploy_tag').val()
 
-            if (deploy_ip != '' && deploy_path != '' && deploy_username != '' && deploy_password != '' && source_ip != '' && source_path != '' && source_user != '' && source_pwd != '') {
+            if (deploy_check != '') {
                 $.ajax({
                     type: "POST",
                     url: "/picEval/pic/",
                     async: true,
                     traditional: true,
                     data: {
-                        'deploy_ip': deploy_ip,
-                        'deploy_path': deploy_path,
-                        'deploy_username': deploy_username,
-                        'deploy_password': deploy_password,
-                        'source_ip': source_ip,
-                        'source_path': source_path,
-                        'source_user': source_user,
-                        'source_pwd': source_pwd,
+                        'deploy_path': jsons,
                         'deploy_check': deploy_check,
                         'deploy_tag': deploy_tag,
                         'env_type': 1,
@@ -298,78 +460,11 @@
                     }
                 })
             } else {
-                if (deploy_ip == '') {
-                    $('#error_xml').text('部署位置-IP不可为空');
-                } else if (deploy_path == '') {
-                    $('#error_xml').text('部署路径-Path不可为空');
-                } else if (deploy_username == '') {
-                    $('#error_xml').text('用户名-username不可为空');
-                } else if (deploy_password == '') {
-                    $('#error_xml').text('密码-password不可为空');
-                } else if (source_ip == '') {
-                    $('#error_xml').text('数据ip不可为空');
-                } else if (source_path == '') {
-                    $('#error_xml').text('数据路径不可为空');
-                }else if (source_user == '') {
-                    $('#error_xml').text('数据user不可为空');
-                } else if (source_pwd == '') {
-                    $('#error_xml').text('数据密码不可为空');
-                }else if (deploy_check == '') {
+                if (deploy_check == '') {
                     $('#error_xml').text('语种不可为空');
                 } else {
                     $('#error_xml').text('未知错误');
                 }
-            }
-        }
-    })
-
-    //diff
-    $('#start_diff').click(function () {
-        var query = $('#query').val()
-        var query_from = $('#query_from').val()
-        var inputHost = $('#inputHost').val()
-        var inputExpId = $('#inputExpId').val()
-
-        var inputHost_diff = $('#inputHost_diff').val()
-        var inputExpId_diff = $('#inputExpId_diff').val()
-        var query_from_diff = $('#query_from_diff').val()
-
-        if (query != "" && inputHost != "" && inputHost_diff != "") {
-            $.ajax({
-                type: "POST",
-                url: "/webqo/debug/diff",
-                async: true,
-                traditional: true,
-                data: {
-                    'inputHost': inputHost,
-                    'inputExpId': inputExpId,
-                    'query_from': query_from,
-                    'query': query,
-                    'inputHost_diff': inputHost_diff,
-                    'inputExpId_diff': inputExpId_diff,
-                    'query_from_diff': query_from_diff
-                },
-                dataType: 'JSON',
-                success: function (ret) {
-                    if (ret.status) {
-                        $('#result').hide()
-                        $('#result_diff').show()
-                        $('#result_diff').html(ret.data)
-                    } else {
-                        $('#error_xml').text(ret.error)
-                    }
-                },
-                error: function () {
-                },
-            });
-            $('#error_xml').text('');
-        } else {
-            if (query == '') {
-                $('#error_xml').text('Request不可为空');
-            } else if (inputHost == '') {
-                $('#error_xml').text('Host不可为空');
-            } else {
-                $('#error_xml').text('未知错误');
             }
         }
     })

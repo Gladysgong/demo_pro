@@ -9,8 +9,8 @@ class ImageTaskInfo(models.Model):
     status = models.IntegerField(default=0)
     env_type = models.IntegerField(default=0)
 
-    start_time = models.TimeField(auto_now_add=True)
-    end_time = models.TimeField(auto_now_add=True)
+    start_time = models.CharField(max_length=50, default="")
+    end_time = models.CharField(max_length=50, default="")
 
     testtag = models.CharField(max_length=50, default="")
     errorlog = models.TextField(null=True)
