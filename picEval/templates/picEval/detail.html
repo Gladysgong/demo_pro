@@ -22,7 +22,7 @@
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td>{{ item.id }}</td>
                         <td>{{ item.start_time }}</td>
-                        <td>{{ item.failed }}</td>
+                        <td>{{ item.failed }}/{{ item.failed}}</td>
                         <td>{{ item.finished }}</td>
                         <td>位置</td>
 
@@ -54,15 +54,31 @@
                     <thead>
                     <tr>
                         <th>编辑距离</th>
-                        <th>识别原文</th>
+                        <th>识别原文(test)</th>
+                        <th>识别原文(base)</th>
                     </tr>
                     </thead>
                     <tbody id="distanceBody">
-                    {% for item in req_lst %}
-                    <tr req_id="{{ item.id }}" class="get_distanceBody">
-                        <td style="display: none;">{{ item.press_qps }}</td>
-                        <td style="display: none;">{{ item.press_time }}</td>
+                    {% for i in Result %}
+                    <tr>
+                        <td>{{ i.result }}</td>
+
+                        {% for key,value in i.result.items %}
+
+                        <td>{{ key }}</td>
+                        {% endfor %}
+
                     </tr>
+                    <!--<tr><td>i.result-->
+                    <!--&lt;!&ndash;{% for key,value in i.result.items %}&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<tr req_id="{{ item.id }}" class="get_distanceBody">&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<td>{{ key }}</td>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<td>{{ value }}</td>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<td>{{ item.press_time }}</td>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<td>综合分</td>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;</tr>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
+                    <!--</td></tr>-->
                     {% endfor %}
                     </tbody>
                 </table>
