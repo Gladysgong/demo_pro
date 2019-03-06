@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% block content %}
 {% load static %}
+
 <div class="row">
     <div class="tile">
         <h3 class="tile-title">详情&nbsp;&nbsp;&nbsp;<span style="color:red;font-size:15px;"
@@ -12,7 +13,7 @@
                     <tr>
                         <th>id</th>
                         <th>开始时间</th>
-                        <th>错误个数/错误率</th>
+                        <th>错误个数|错误率</th>
                         <th>已完成个数</th>
                         <th>执行结果存储位置</th>
                     </tr>
@@ -22,67 +23,40 @@
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td>{{ item.id }}</td>
                         <td>{{ item.start_time }}</td>
-                        <td>{{ item.failed }}/{{ item.failed}}</td>
+                        <td>{{ item.failed }} | {%  widthratio item.failed item.finished 1 %}</td>
                         <td>{{ item.finished }}</td>
                         <td>位置</td>
-
                     </tr>
                     {% endfor %}
                     </tbody>
                 </table>
                 <table class="table" id="result1">
                     <thead>
-
+                    <tr>
+                        <th>id</th>
+                        <th>测试图</th>
+                        <th>base图</th>
+                        <th>test图</th>
+                        <th>info</th>
+                    </tr>
                     </thead>
                     <tbody id="resultBody1">
                     {% for item in Result %}
                     <tr req_id="{{ item.id }}" class="get_resultBody">
-                        <td><img src=" {{ item.testImg }} "></td>
-                        <td><img src=" {{ item.basepath }} "></td>
-                        <td><img src=" {{ item.testpath }} "></td>
+                        <td>{{ item.id }}</td>
+                        <td><img src=" {{ item.testImg }}"></td>
+                        <td><img src=" {{ item.basepath }}"></td>
+                        <td><img src=" {{ item.testpath }}"></td>
+                        <td></td>
+                        <td>
+                            排序:{{ item.rankInfo}}
+                            <p></p>
+                            其他:{{ item.result }}
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                <!--<div class="form-group col-md-12">-->
-                <!--原图-->
-                <!--<img src="/static/images/timg1.jpg">-->
-                <!--</div>-->
-                <!--<div class="form-group col-md-12">test回贴图</div>-->
-                <!--<div class="form-group col-md-12">base回贴图</div>-->
-                <table class="table" id="distance">
-                    <thead>
-                    <tr>
-                        <th>编辑距离</th>
-                        <th>识别原文(test)</th>
-                        <th>识别原文(base)</th>
-                    </tr>
-                    </thead>
-                    <tbody id="distanceBody">
-                    {% for i in Result %}
-                    <tr>
-                        <td>{{ i.result }}</td>
-
-                        {% for key,value in i.result.items %}
-
-                        <td>{{ key }}</td>
-                        {% endfor %}
-
-                    </tr>
-                    <!--<tr><td>i.result-->
-                    <!--&lt;!&ndash;{% for key,value in i.result.items %}&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<tr req_id="{{ item.id }}" class="get_distanceBody">&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<td>{{ key }}</td>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<td>{{ value }}</td>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<td>{{ item.press_time }}</td>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<td>综合分</td>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;</tr>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
-                    <!--</td></tr>-->
-                    {% endfor %}
-                    </tbody>
-                </table>
-
             </div>
         </div>
     </div>
