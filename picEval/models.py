@@ -16,13 +16,12 @@ class ImageTaskInfo(models.Model):
     errorlog = models.TextField(null=True)
     pid = models.CharField(max_length=50, default="")
 
-    test_ocrip = models.CharField(max_length=50,default="")
-    base_ocrip = models.CharField(max_length=50,default="")
+    test_ocrip = models.CharField(max_length=50, default="")
+    base_ocrip = models.CharField(max_length=50, default="")
     test_imgip = models.CharField(max_length=50, default="")
     base_imgip = models.CharField(max_length=50, default="")
-    port_from= models.CharField(max_length=50, default="")
-    port_to= models.CharField(max_length=50, default="")
-
+    port_from = models.CharField(max_length=50, default="")
+    port_to = models.CharField(max_length=50, default="")
 
     sum_num = models.IntegerField(default=0)
     finished = models.IntegerField(default=0)
@@ -44,9 +43,9 @@ class ImageTaskInfo(models.Model):
     sourcePath = models.CharField(max_length=500, default="")
 
 
-
 class ResultInfo(models.Model):
     id = models.AutoField(primary_key=True)
+    filename = models.CharField(max_length=500, default="")
     testImg = models.CharField(max_length=500, default="")
     basepath = models.CharField(max_length=500, default="")
     testpath = models.CharField(max_length=500, default="")
