@@ -13,7 +13,7 @@ class ImageTaskInfo(models.Model):
     end_time = models.CharField(max_length=50, default="")
 
     testtag = models.CharField(max_length=50, default="")
-    errorlog = models.TextField(null=True)
+    errorlog = models.TextField(default="")
     pid = models.CharField(max_length=50, default="")
 
     test_ocrip = models.CharField(max_length=50, default="")
