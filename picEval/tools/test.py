@@ -60,6 +60,7 @@ def post_ocr(ImageTaskInfo_id, test_ocrip, base_ocrip, test_imgip, base_imgip, f
         if (test_issuccess == int(1) & base_issuccess == int(1)):
             finished += 1
             ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(finished=finished)
+            distance()
 
         else:
             failed += 1

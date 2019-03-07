@@ -337,7 +337,9 @@
                 <tbody id="reqBody">
                 {% for item in result_image %}
                 <tr req_id="{{ item.id }}" class="get_data">
-                    <td>{{ item.id }}</td>
+                    <td>
+                        <a href="/picEval/pic/log_{{ item.id }}.html">{{ item.id }}</a>
+                    </td>
                     <td>{{ item.start_time}}</td>
                     <td>{{ item.end_time}}</td>
                     <td>{{ item.langs }}</td>

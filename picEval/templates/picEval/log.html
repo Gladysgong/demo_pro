@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+
+<div class="row">
+    <div class="tile">
+        <h3 class="tile-title">Log详情&nbsp;&nbsp;&nbsp;<span style="color:red;font-size:15px;"
+                                                            id="error_xml"></span></h3>
+        <div class="form-group col-md-12">
+            <div class="tile-body">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <tbody id="reqBody">
+                            <tr req_id="{{ ImageTask.id }}" class="get_data">
+                                <td>
+                                    <pre>{{ ImageTask.0.errorlog }}</pre>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    //判断ajax里面的方法是get还是post
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    //只要执行一次ajaxSetup进行header设置,就可以不用在没个ajax里面添加header信息了
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader('X-CSRFtoken', $.cookie('csrftoken'))
+            }
+        }
+    });
+
+    //table hover
+    $(function () {
+        function showBox(obj, box) {
+            var timer = null;
+            $(obj).on("mouseover", function (e) {
+                clearTimeout(timer);
+                var clientX = e.clientX;
+                var clientY = e.clientY;
+                var y = clientY + 20;
+                var txt = $(this).text();
+                timer = setTimeout(function () {
+                    $(box).css("left", clientX).css("top", y);
+                    if (txt == "") {
+                        $(box).hide();
+                    } else {
+                        $(box).show();
+                        $(box).html(txt);
+                    }
+                }, 300);
+            });
+            $(obj).on("mouseout", function () {
+                clearTimeout(timer);
+                $(box).hide();
+            });
+        }
+
+        showBox("#reqData > tbody td", "#showDiv");
+    });
+
+
+</script>
+{% endblock %}
+
+

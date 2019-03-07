@@ -71,21 +71,31 @@ def post1(request):
 def detail(request, task_id):
     if request.method == 'GET':
         result = ResultInfo.objects.filter(taskid_id=task_id)
+
         imageTask = ImageTaskInfo.objects.filter(id=task_id)
-        for e in result:
-            print(type(e.result))
-            x = json.loads(e.result)
 
-            for i in x:
-                for k, v in i.items():
-                    print('k', k)
-                    print('v', v)
+        # distance = []
+        # for e in result:
+        #     print(type(e.result))
+        #     x = json.loads(e.result)
+        #     for i in x:
+        #         for k, v in i.items():
+        #             print('k', k)
+        #             print('v', v)
+        #             distance.append(v)
+        # print(distance)
 
-        # print('result',result.basepath)
         return render(request, 'picEval/detail.html', {'Result': result, 'ImageTask': imageTask})
 
+
+def log(request, task_id):
+    if request.method == 'GET':
+        xx = ImageTaskInfo.objects.filter(id=task_id)
+        print('tt',xx)
+
+    return render(request, 'picEval/log.html',{'ImageTask': xx })
 # def base64_image(path):
-#     with open(path, 'rb') as f:
+# with open(path, 'rb') as f:
 #         image = base64.b64encode(f.read())
 #         image = image.decode('utf-8')
 #         return image
