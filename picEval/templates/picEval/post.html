@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
         <div class="tile">
             <div class="tile-body">
                 <h3 class="tile-title">请求添加&nbsp;&nbsp;&nbsp;<span style="color:red;font-size:15px;"
@@ -23,6 +23,7 @@
                                         <input class="form-control" type="text" id="port_testocrip"
                                                name="port_testocrip"
                                                placeholder="ocr:IP:port">
+                                        <p></p>
                                         <input class="form-control" type="text" id="port_testimgip"
                                                name="port_testimgip"
                                                placeholder="回帖图:IP:port">
@@ -32,6 +33,7 @@
                                         <input class="form-control" type="text" id="port_baseocrip"
                                                name="port_baseocrip"
                                                placeholder="ocr:IP:port">
+                                        <p></p>
                                         <input class="form-control" type="text" id="port_baseimgip"
                                                name="port_baseimgip"
                                                placeholder="回帖图:IP:port">
@@ -70,11 +72,34 @@
                                     {% csrf_token %}
                                     <div class="form-group col-md-12 row">
                                         <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2">langs</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control deploy0" type="text" id="deploy_langs"
+                                                       name="deploy_langs"
+                                                       value="/search/odin/test/offline_t/langs" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 row">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy0" type="text" id="source_ip0"
+                                                       name="source_ip1"
+                                                       placeholder="ip">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input class="form-control deploy0" type="text" id="source_path0"
+                                                       name="source_path1"
+                                                       placeholder="path">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 row">
+                                        <div class="form-group col-md-12 row">
                                             <label class="control-label col-md-2">部署位置</label>
                                             <div class="col-md-10">
                                                 <input class="form-control deploy1" type="text" id="deploy_path1"
                                                        name="deploy_path1"
-                                                       value="/search/odin/test/offline/tf_ocr_daemon" disabled>
+                                                       value="/search/odin/test/offline_t/tf_ocr_daemon" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12 row">
@@ -97,7 +122,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy2" type="text" id="deploy_path2"
                                                        name="deploy_path2"
-                                                       value="/search/odin/test/offline/tf_model_server" disabled>
+                                                       value="/search/odin/test/offline_t/tf_model_server" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12 row">
@@ -120,7 +145,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy3" type="text" id="deploy_path3"
                                                        name="deploy_path3"
-                                                       value="/search/odin/test/offline/tf_detect" disabled>
+                                                       value="/search/odin/test/offline_t/tf_detect" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12 row">
@@ -143,7 +168,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy4" type="text" id="deploy_path4"
                                                        name="deploy_path4"
-                                                       value="/search/odin/test/offline/ocr_hub" disabled>
+                                                       value="/search/odin/test/offline_t/ocr_hub" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12 row">
@@ -166,7 +191,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy5" type="text" id="deploy_path5"
                                                        name="deploy_path5"
-                                                       value="/search/odin/test/offline/ocr_translate/ocr_trans_latest"
+                                                       value="/search/odin/test/offline_t/ocr_translate/ocr_trans_latest"
                                                        disabled>
                                             </div>
                                         </div>
@@ -190,7 +215,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy6" type="text" id="deploy_path6"
                                                        name="deploy_path6"
-                                                       value="/search/odin/test/offline/ocr_translate/tagent" disabled>
+                                                       value="/search/odin/test/offline_t/ocr_translate/tagent" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12 row">
@@ -213,7 +238,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy7" type="text" id="deploy_path7"
                                                        name="deploy_path7"
-                                                       value="/search/odin/test/offline/ocr_translate/img_trans"
+                                                       value="/search/odin/test/offline_t/ocr_translate/img_trans"
                                                        disabled>
                                             </div>
                                         </div>
@@ -237,7 +262,7 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy8" type="text" id="deploy_path8"
                                                        name="deploy_path8"
-                                                       value="/search/odin/test/offline/ocr_translate/http_gateway"
+                                                       value="/search/odin/test/offline_t/ocr_translate/http_gateway"
                                                        disabled>
                                             </div>
                                         </div>
@@ -292,7 +317,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
         <div class="tile" style="height: 690px;overflow-y: scroll">
             <h3 class="tile-title">任务列表</h3>
             <table class="table" id="reqData">
@@ -318,7 +343,32 @@
                     <td>{{ item.langs }}</td>
                     <td>{{ item.failed }}</td>
                     <td>{{ item.finished }}</td>
-                    <td>{{ item.status }}</td>
+                    <td>
+                        {% ifequal item.status 0 %}
+                        <font color="gray">Waiting</font>
+                        {% endifequal %}
+                        {% ifequal item.status 1 %}
+                        <font color="cream">Ready</font>
+                        {% endifequal %}
+                        {% ifequal item.status 2 %}
+                        <font color="green">Running</font>
+                        {% endifequal %}
+                        {% ifequal item.status 3 %}
+                        <font color="red">Error</font>
+                        {% endifequal %}
+                        {% ifequal item.status 4 %}
+                        <font color="blue">Finished</font>
+                        {% endifequal %}
+                        {% ifequal item.status 5 %}
+                        <font color="orange">Canceled</font>
+                        {% endifequal %}
+                        {% ifequal item.status 6 %}
+                        <font color="orange">Canceling</font>
+                        {% endifequal %}
+                        {% ifequal item.status 7 %}
+                        <font color="orange">port</font>
+                        {% endifequal %}
+                    </td>
                     <td>{{ item.username_id }}</td>
                     <td>
                         <a href="/picEval/pic/detail_{{ item.id }}.html">详情</a>
@@ -399,6 +449,7 @@
             console.log('false')
 
             var jsons = {}
+            jsons.deploy0 = ''
             jsons.deploy1 = ''
             jsons.deploy2 = ''
             jsons.deploy3 = ''
@@ -407,6 +458,9 @@
             jsons.deploy6 = ''
             jsons.deploy7 = ''
             jsons.deploy8 = ''
+            $('.deploy0').each(function () {
+                jsons.deploy0 = jsons.deploy0 + $(this).val() + ','
+            })
             $('.deploy1').each(function () {
                 jsons.deploy1 = jsons.deploy1 + $(this).val() + ','
             })
