@@ -44,9 +44,9 @@
                     {% for item in Result %}
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td>{{ item.id }}--{{ item.filename }}</td>
-                        <td><img src=" {{ item.testImg }}"></td>
-                        <td><img src=" {{ item.basepath }}"></td>
-                        <td><img src=" {{ item.testpath }}"></td>
+                        <td><a href="{{ item.testImg }}" target="_blank"><img src=" {{ item.testImg }}"></a></td>
+                        <td><a href="{{ item.basepath }}" target="_blank"><img src=" {{ item.basepath }}"></a></td>
+                        <td><a href="{{ item.testpath }}" target="_blank"><img src=" {{ item.testpath }}"></a></td>
                         <td>
                             排序:{{ item.rankInfo}}
                             <p></p>
