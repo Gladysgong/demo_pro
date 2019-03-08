@@ -503,8 +503,6 @@
                 jsons.deploy8 = jsons.deploy8 + $(this).val() + ','
             })
 
-            console.log(jsons)
-
             var deploy_check = []
             $('input[type=checkbox]:checked').each(function () {
                 deploy_check.push($(this).val())
@@ -527,7 +525,7 @@
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-//                            location.reload()
+                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
