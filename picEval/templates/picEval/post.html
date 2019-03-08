@@ -215,7 +215,8 @@
                                             <div class="col-md-10">
                                                 <input class="form-control deploy6" type="text" id="deploy_path6"
                                                        name="deploy_path6"
-                                                       value="/search/odin/test/offline_t/ocr_translate/tagent" disabled>
+                                                       value="/search/odin/test/offline_t/ocr_translate/tagent"
+                                                       disabled>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12 row">
@@ -284,18 +285,29 @@
                                         语种选择 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <div class="form-check" id="deploy_check">
                                             <label class="deploy_check form-check-label col-md-12">
-                                                <input class="form-check-input" type="checkbox">en-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">zh-en &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">ja-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">zh-ja &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">Ko-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="en_zh-CHS">en-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_en">zh-en &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="ja_zh-CHS">ja-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ja">zh-ja &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="ko_zh-CHS">ko-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ko">zh-ko &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                                             </label>
                                             <label class="deploy_check form-check-label col-md-12">
-                                                <input class="form-check-input" type="checkbox">zh-ko &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">ru-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">zh-ru &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">fr-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox">zh-fr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="ru_zh-CHS">ru-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ru">zh-ru &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="fr_zh-CHS">fr-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_fr">zh-fr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="es_zh-CHS" disabled>es-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_es" disabled>zh-es &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </label>
+                                            <label class="deploy_check form-check-label col-md-12">
+                                                <input class="form-check-input" type="checkbox" value="de_zh-CHS">de-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_de">zh-de &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="pt_zh-CHS">pt-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_pt">zh-pt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="it_zh-CHS">it-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_it">zh-it &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </label>
                                         </div>
                                     </div>
@@ -368,7 +380,10 @@
                         <font color="orange">Canceling</font>
                         {% endifequal %}
                         {% ifequal item.status 7 %}
-                        <font color="orange">port</font>
+                        <font color="orange">port-running</font>
+                        {% endifequal %}
+                        {% ifequal item.status 8 %}
+                        <font color="orange">port-finished</font>
                         {% endifequal %}
                     </td>
                     <td>{{ item.username_id }}</td>
@@ -431,7 +446,7 @@
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-                            console.log('success!')
+                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
@@ -488,10 +503,13 @@
                 jsons.deploy8 = jsons.deploy8 + $(this).val() + ','
             })
 
+            console.log(jsons)
+
             var deploy_check = []
             $('input[type=checkbox]:checked').each(function () {
                 deploy_check.push($(this).val())
             })
+            console.log(deploy_check)
             var deploy_tag = $('#deploy_tag').val()
 
             if (deploy_check != '') {
@@ -504,12 +522,12 @@
                         'deploy_path': jsons,
                         'deploy_check': deploy_check,
                         'deploy_tag': deploy_tag,
-                        'env_type': 1,
+                        'env_type': 1
                     },
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-                            console.log('success!')
+//                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
