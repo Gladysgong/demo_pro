@@ -78,37 +78,6 @@
         }
     });
 
-    //request
-    $('#add_automation').click(function () {
-        var qw_base_svn = $('#qw_basesvn').val()
-        var qw_text_svn = $('#qw_testsvn').val()
-        if (qw_base_svn != "" || qw_text_svn != "") {
-            $.ajax({
-                type: "POST",
-                url: "/webqw/auto/add",
-                async: true,
-                traditional: true,
-                data: $('#form_automation').serialize(),
-                dataType: 'JSON',
-                success: function (obj) {
-                    console.log(obj.status)
-                    if (obj.status) {
-                        {#                            console.log(JSON.stringify($('#form_qw_addtask').serialize()))#
-                        }
-                        location.reload();
-                    } else {
-                        $('#error_xml').text(obj.error);
-                    }
-                },
-                error: function () {
-
-                },
-            });
-            $('#error_xml').text('');
-        } else {
-            $('#error_xml').text('svn不可都为空');
-        }
-    })
 
     //table hover
     $(function () {
