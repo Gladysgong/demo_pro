@@ -5,6 +5,7 @@ import requests
 import base64
 import os, json
 from picEval.tools.test import post_ocr
+from picEval.tools import pagination
 
 
 # Create your views here.
@@ -12,8 +13,19 @@ from picEval.tools.test import post_ocr
 
 def post1(request):
     if request.method == 'GET':
-        data = ImageTaskInfo.objects.all()
-        return render(request, 'picEval/post.html', {'result_image': data})
+        page = request.GET.get('page')
+        curent_page = 1
+        if page:
+            curent_page = int(page)
+        try:
+            result_list = ImageTaskInfo.objects.all()
+            page_obj = pagination.Page(curent_page, len(result_list), 10, 5)
+            data = result_list[page_obj.start:page_obj.end]
+            page_str = page_obj.page_str("/picEval/pic?page=")
+        except Exception as e:
+            print(e)
+            pass
+        return render(request, 'picEval/post.html', {'result_image': data, 'page_str': page_str})
     elif request.method == 'POST':
         ret = {
             'status': True,
@@ -42,6 +54,7 @@ def post1(request):
             to_langs = langs[1]
             post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
                      to_langs)
+
         elif env_type == '1':
             deploy_ip = '10.141.177.27'
             deploy_path = request.POST.get('deploy_path')
@@ -64,8 +77,6 @@ def post1(request):
             #          to_langs)
         else:
             print('未知评测类型！')
-
-        return render(request, 'picEval/post.html')
 
 
 def detail(request, task_id):
@@ -90,10 +101,9 @@ def detail(request, task_id):
 
 def log(request, task_id):
     if request.method == 'GET':
-        xx = ImageTaskInfo.objects.filter(id=task_id)
-        print('tt',xx)
+        result = ImageTaskInfo.objects.filter(id=task_id)
+        return render(request, 'picEval/log.html', {'ImageTask': result})
 
-    return render(request, 'picEval/log.html',{'ImageTask': xx })
 # def base64_image(path):
 # with open(path, 'rb') as f:
 #         image = base64.b64encode(f.read())
