@@ -285,29 +285,47 @@
                                         语种选择 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <div class="form-check" id="deploy_check">
                                             <label class="deploy_check form-check-label col-md-12">
-                                                <input class="form-check-input" type="checkbox" value="en_zh-CHS">en-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_en">zh-en &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="ja_zh-CHS">ja-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ja">zh-ja &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="ko_zh-CHS">ko-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ko">zh-ko &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="en_zh-CHS">en-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_en">zh-en
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="ja_zh-CHS">ja-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ja">zh-ja
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="ko_zh-CHS">ko-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ko">zh-ko
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                                             </label>
                                             <label class="deploy_check form-check-label col-md-12">
-                                                <input class="form-check-input" type="checkbox" value="ru_zh-CHS">ru-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ru">zh-ru &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="fr_zh-CHS">fr-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_fr">zh-fr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="es_zh-CHS" disabled>es-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_es" disabled>zh-es &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="ru_zh-CHS">ru-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_ru">zh-ru
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="fr_zh-CHS">fr-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_fr">zh-fr
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="es_zh-CHS"
+                                                       disabled>es-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_es"
+                                                       disabled>zh-es &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </label>
                                             <label class="deploy_check form-check-label col-md-12">
-                                                <input class="form-check-input" type="checkbox" value="de_zh-CHS">de-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_de">zh-de &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="pt_zh-CHS">pt-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_pt">zh-pt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="it_zh-CHS">it-zh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input class="form-check-input" type="checkbox" value="zh-CHS_it">zh-it &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="de_zh-CHS">de-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_de">zh-de
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="pt_zh-CHS">pt-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_pt">zh-pt
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="it_zh-CHS">it-zh
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="form-check-input" type="checkbox" value="zh-CHS_it">zh-it
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </label>
                                         </div>
                                     </div>
@@ -349,6 +367,10 @@
                 <tbody id="reqBody">
                 {% for item in result_image %}
                 <tr req_id="{{ item.id }}" class="get_data">
+                    <td style="display: none">{{ item.test_ocrip}}</td>
+                    <td style="display: none">{{ item.test_imgip}}</td>
+                    <td style="display: none">{{ item.base_ocrip}}</td>
+                    <td style="display: none">{{ item.base_imgip}}</td>
                     <td>
                         <a href="/picEval/pic/log_{{ item.id }}.html">{{ item.id }}</a>
                     </td>
@@ -405,7 +427,7 @@
 {% endblock %}
 {% block js %}
 <script>
-    //query
+    //add
     $('#add_task').click(function () {
 
         var select = $('#port_eval').attr('class')
@@ -540,6 +562,23 @@
             }
         }
     })
+
+    //getData
+    $('.get_data').dblclick(function () {
+
+        var linelst = $(this).children();
+        port_testocrip = $(linelst[0]).text();
+        port_testimgip = $(linelst[1]).text();
+        port_baseocrip = $(linelst[2]).text();
+        port_baseimgip = $(linelst[3]).text();
+
+        $('#port_testocrip').val(port_testocrip);
+        $('#port_baseocrip').val(port_baseocrip);
+        $('#port_testimgip').val(port_testimgip);
+        $('#port_baseimgip').val(port_baseimgip);
+
+    })
+
 </script>
 {% endblock %}
 
