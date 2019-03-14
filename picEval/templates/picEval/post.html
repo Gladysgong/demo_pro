@@ -426,9 +426,12 @@
                         <font color="orange">Canceling</font>
                         {% endifequal %}
                         {% ifequal item.status 7 %}
-                        <font color="orange">port-running</font>
+                        <font color="orange">port-ready</font>
                         {% endifequal %}
                         {% ifequal item.status 8 %}
+                        <font color="orange">port-running</font>
+                        {% endifequal %}
+                        {% ifequal item.status 9 %}
                         <font color="orange">port-finished</font>
                         {% endifequal %}
                     </td>
