@@ -10,32 +10,16 @@ import os, traceback, time
 
 
 @celery_app.task
-def get_pic_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip,
-                from_langs, to_langs):
+def get_pic_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip,from_langs, to_langs):
+
+    task_status=''
     try:
-        # task_status = os.system('/root/anaconda3/bin/python3 /search/odin/pypro/webqa/utils/getdiff_byxml.py %d &' % task_id)
         task_status = os.system(
             '/Users/apple/AnacondaProjects/demo_pro/.env/bin/python /Users/apple/AnacondaProjects/demo_pro/picEval/tools/test.py %d %s %s %s %s %s %s&' % (
-                int(ImageTaskInfo_id), port_testocrip, port_baseocrip, port_testimgip, port_baseimgip,
-                from_langs, to_langs))
-
-        # task_status = os.system('/Users/apple/AnacondaProjects/demo_pro/.env/bin/python /Users/apple/AnacondaProjects/demo_pro/picEval/tools/test.py')
-
+            int(ImageTaskInfo_id), port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs, to_langs))
 
     except Exception as e:
         print(e)
         traceback.print_exc()
         pass
     return task_status
-
-# @celery_app.task
-# def get_gpu_detail(runningid, req_id):
-#     try:
-#         task_status = os.system('python3 /search/odin/pypro/webqa/utils/monitor.py %s %s &' % (str(runningid), req_id))
-#
-#
-#         # task_status = os.system('python3 /Users/zhangjingjun/work/code/webqa/utils/monitor.py %s %s &' % (str(runningid), req_id))
-#     except Exception as e:
-#         traceback.print_exc()
-#         pass
-#     return task_status

@@ -1,10 +1,10 @@
 import requests
 import base64
-import os, json, sys,time
+import os, json, sys, time
 import pymysql
-
-# from picEval.models import ImageTaskInfo, ResultInfo
-# from picEval.tools.conf import *
+from datetime import datetime
+import logging
+from Editdistance import *
 
 # 数据库配置
 database_host = "10.134.120.30"
@@ -35,21 +35,91 @@ dest_secpath = r'/static/dest/port/'
 # 翻译回帖接口：http://api.image.sogou/v1/open/ocr_translate.json
 # 参数：from、to、image、result_type=image
 
-ImageTaskInfo_id = int(sys.argv[1])
+# ImageTaskInfo_id = int(sys.argv[1])
+mission_id = int(sys.argv[1])
 port_testocrip = sys.argv[2]
 port_baseocrip = sys.argv[3]
 port_testimgip = sys.argv[4]
 port_baseimgip = sys.argv[5]
 from_langs = sys.argv[6]
 to_langs = sys.argv[7]
+# status = int(sys.argv[8])
 
 db = pymysql.connect(database_host, database_user, database_pass, database_db)
 cursor = db.cursor()
 
 
+class logutil():
+    fname = ''
+
+    def __init__(self, id):
+        self.fname = datetime.now().strftime('%m%d%H%M%S') + '-' + str(id)
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s : %(levelname)s  %(message)s',
+            datefmt='%Y-%m-%d %A %H:%M:%S',
+            filename='log/log-' + self.fname,
+            filemode='a')
+
+    def log_info(self, loginfo):
+        logging.info(loginfo)
+
+    def log_debug(self, loginfo):
+        logging.debug(loginfo)
+
+    def log_warning(self, loginfo):
+        logging.warning(loginfo)
+
+    def log_error(self, loginfo):
+        logging.error(loginfo)
+
+    def log_critical(self, loginfo):
+        logging.critical(loginfo)
+
+
 def get_now_time():
     timeArray = time.localtime()
     return time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+
+
+def update_errorlog(log):
+    logstr = logutil(mission_id)
+    # print(log.replace('\n', ''))
+    log = log.replace("'", "\\'")
+
+    sql = "UPDATE %s set errorlog=CONCAT(errorlog, '%s') where id=%d;" % (database_image, log, mission_id)
+
+    cursor.execute(sql)
+    data = cursor.fetchone()
+    logstr.log_info(str(mission_id) + "\t" + log)
+    try:
+        db.commit()
+    except:
+        logstr.log_debug("update_errorlog failed.")
+    return data
+
+
+def get_imagetaskinfo():
+    sql = "SELECT svIp, langs, env_type, status FROM %s where id='%d'" % (database_image, mission_id)
+    cursor.execute(sql)
+    data = cursor.fetchone()
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except Exception as e:
+        update_errorlog("[%s] Query table imagetaskinfo failed. \n" % (get_now_time()))
+
+    return data
+
+
+def save_status(sum_num, status):
+    sql = "UPDATE %s set sum_num='%d', status='%d' where id=%d" % (database_image, sum_num, status, mission_id)
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except Exception as e:
+        update_errorlog("[%s] Update status [%d] failed. \n" % (get_now_time(), status))
+    return 0
 
 
 def imageTobase64(path):
@@ -66,6 +136,7 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
 
     origin_path = rootpath + origin_secpath + from_langs + '_' + to_langs + '/'
     ori_stroePaht = origin_secpath + from_langs + '_' + to_langs + '/'
+
     sum_num = len(os.listdir(origin_path))
 
     failed = 0
@@ -73,12 +144,11 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
     img_diff_count = 0
     text_diff_count = 0
     text_base_count = 0
-    print('sum',sum_num)
+    print('sum', sum_num)
 
-    sql_sum = "UPDATE %s set sum_num='%d', status=8 where id=%d" % (database_image, sum_num, mission_id)
-    cursor.execute(sql_sum)
-    db.commit()
-    # ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(sum_num=sum_num)
+    # if status == int(7):
+    save_status(sum_num, status=8)
+    update_errorlog("[%s] Port deploy: Post is running. \n" % (get_now_time()))
 
     for filename in os.listdir(origin_path):
         base64image = imageTobase64(origin_path + filename)
@@ -98,7 +168,8 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
         if (test_issuccess == int(1) & base_issuccess == int(1)):
             finished += 1
 
-            distance_data = distance(ocr_test, ocr_base)
+            # 计算距离
+            distance_data = json.loads(ReturnRes(ocr_test, ocr_base))
 
             img_diff_count += distance_data['img_diff_count']
             text_diff_count += distance_data['text_diff_count']
@@ -106,11 +177,6 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
 
             rankInfo = distance_data['sum_distance']
             result = json.dumps(distance_data['result'])
-
-            # resp = ResultInfo.objects.create(taskid_id=int(ImageTaskInfo_id), testImg=ori_stroePaht + filename,
-            #                                  rankInfo=rankInfo, result=result, filename=filename,
-            #                                  test_status=test_issuccess, base_status=base_issuccess)
-            # ResultInfo_id = resp.id
 
             test_Img1, testpath = post_image(from_langs, to_langs, base64image, test_imgip, filename, 'test')
             test_Img2, basepath = post_image(from_langs, to_langs, base64image, base_imgip, filename, 'base')
@@ -124,12 +190,6 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
 
         else:
             failed += 1
-            # ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(failed=failed)
-
-    # ImageTaskInfo.objects.filter(id=ImageTaskInfo_id).update(finished=finished, img_diff_count=img_diff_count,
-    #                                                          text_diff_count=text_diff_count,
-    #                                                          text_base_count=text_base_count,
-    #                                                          status=8)
 
     sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d',status=9 where id=%d" % (
         database_image, get_now_time(), sum_num, finished, failed, img_diff_count, text_diff_count,
@@ -139,19 +199,17 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
     cursor.execute(sql_image)
     db.commit()
 
-    return sum_num
+    status_data = get_imagetaskinfo()
+    if status_data[3] == 9:
+        update_errorlog(
+            "[%s] Port deploy: Post [%s]-[%s] has been completed. \n" % (get_now_time(), from_langs, to_langs))
+    return 1
+    # else:
+    #     update_errorlog("[%s] Port deploy:Status is not assigned. \n" % (get_now_time()))
+    #     return 0
 
 
 def post_image(from_langs, to_langs, base64image, url, filename, type):
-    # module_path = os.path.dirname(__file__)
-    # print(module_path)
-    # pic_path = r'/Users/apple/AnacondaProjects/demo_pro/image/'
-    # sum_num = len(os.listdir(pic_path))
-    # for filename in os.listdir(pic_path):
-    #     image_base64 = imageTobase64(pic_path + filename)
-    #     print(image_base64)
-    # headers = {"Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary0COmad6TmBUZmkWm"}
-
     params_img = {
         'from': from_langs,
         'to': to_langs,
@@ -159,23 +217,22 @@ def post_image(from_langs, to_langs, base64image, url, filename, type):
         'result_type': 'image'
     }
 
-    # resp = requests.post('http://api.image.sogou/v1/open/ocr_translate.json', data=params_img)
     resp = requests.post(url, data=params_img)
     result = resp.json()
-    pic = result['pic']
-    pic = base64.b64decode(pic)
+
+    testImg = origin_secpath + from_langs + '_' + to_langs + '/' + filename
     path = ''
 
-    isPath = rootpath + dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
-    storePath = dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
-
-    if not os.path.exists(isPath):
-        os.makedirs(isPath)
-
     if result['success'] == int(1):
+        pic = result['pic']
+        pic = base64.b64decode(pic)
 
-        testImg = origin_secpath + from_langs + '_' + to_langs + '/' + filename
         filename = filename[:-4]
+
+        isPath = rootpath + dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
+        storePath = dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
+        if not os.path.exists(isPath):
+            os.makedirs(isPath)
 
         if type == 'test':
             file = open(isPath + filename + '_test.jpg', 'wb')
@@ -190,10 +247,12 @@ def post_image(from_langs, to_langs, base64image, url, filename, type):
             # ResultInfo.objects.filter(id=ResultInfo_id).update(basepath=path)
             file.close()
         else:
-            print('回帖图请求类型未知！')
+            update_errorlog("[%s] [%s] of the image don't belong to base or test. \n" % (get_now_time(), filename))
+
         return testImg, path
     else:
-        return 0
+        update_errorlog("[%s] [%s] of the image api [%s] failed. \n" % (get_now_time(), filename, type))
+        return testImg, path
 
 
 def distance(result_test, result_base):
@@ -219,12 +278,7 @@ def distance(result_test, result_base):
     return json
 
 
-def a():
-    print('test!')
-
-
 if __name__ == '__main__':
     # post_ocr('http://api.image.sogou/v1/ocr/basic.json', 'http://api.image.sogou/v1/ocr/basic.json', 'zh-CHS')
     # post_image('en', 'zh-CHS', base64, filename, url, type)
-    post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs, to_langs)
-    # a()
+    post_ocr(mission_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs, to_langs)

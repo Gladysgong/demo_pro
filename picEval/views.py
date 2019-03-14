@@ -4,6 +4,7 @@ from rbac.models import UserInfo
 import requests
 import base64
 import os, json
+from django.core import serializers
 # from picEval.tools.test import post_ocr
 from picEval.tools import pagination
 from picEval.task import get_pic_ocr
@@ -51,21 +52,13 @@ def post1(request):
                                                     test_ocrip=port_testocrip, base_ocrip=port_baseocrip,
                                                     test_imgip=port_testimgip,
                                                     base_imgip=port_baseimgip, testtag=port_tag)
-                print('xx')
                 ImageTaskInfo_id = resp.id
                 langs = port_langs.split('_')
                 from_langs = langs[0]
                 to_langs = langs[1]
-                print(to_langs)
 
-                # post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
-                #          to_langs)
-
-                print(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip,
-                      from_langs, to_langs)
                 r = get_pic_ocr.delay(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip,
                                       from_langs, to_langs)
-                print('yy')
 
                 return HttpResponse(json.dumps(ret))
 
@@ -80,16 +73,6 @@ def post1(request):
                                                     svIP=deploy_ip, svPath=deploy_path,
                                                     testtag=deploy_tag)
 
-                ImageTaskInfo_id = resp.id
-                print('deploy_check', deploy_check)
-
-                # langs = port_langs.split('_')
-                # from_langs = langs[0]
-                # print(from_langs)
-                # to_langs = langs[1]
-                # post_ocr(ImageTaskInfo_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs,
-                #          to_langs)
-                # return render(request, 'picEval/post.html')
                 return HttpResponse(json.dumps(ret))
             else:
                 print('未知评测类型！')
@@ -99,87 +82,48 @@ def post1(request):
         return HttpResponse(json.dumps(ret))
 
 
+# def detail(request, task_id):
+#     if request.method == 'GET':
+#         result = ResultInfo.objects.filter(taskid_id=task_id)
+#
+#         imageTask = ImageTaskInfo.objects.filter(id=task_id)
+#
+#         # distance = []
+#         # for e in result:
+#         #     print(type(e.result))
+#         #     x = json.loads(e.result)
+#         #     for i in x:
+#         #         for k, v in i.items():
+#         #             print('k', k)
+#         #             print('v', v)
+#         #             distance.append(v)
+#         # print(distance)
+#
+#         return render(request, 'picEval/detail.html', {'Result': result, 'ImageTask': imageTask})
+
+
 def detail(request, task_id):
     if request.method == 'GET':
+        data = dict()
         result = ResultInfo.objects.filter(taskid_id=task_id)
-
         imageTask = ImageTaskInfo.objects.filter(id=task_id)
+        data['reslut_lst'] = json.loads(serializers.serialize("json", result))
+        print(data)
+        for e in result:
+            print(json.loads(e.result))
+            x = json.loads(e.result)
 
-        # distance = []
-        # for e in result:
-        #     print(type(e.result))
-        #     x = json.loads(e.result)
-        #     for i in x:
-        #         for k, v in i.items():
-        #             print('k', k)
-        #             print('v', v)
-        #             distance.append(v)
-        # print(distance)
+            # for i in x:
+            #     for k, v in i.items():
+            #         print('k', k)
+            #         print('v', v)
 
-        return render(request, 'picEval/detail.html', {'Result': result, 'ImageTask': imageTask})
+        # print('result',result)
+        return render(request, 'picEval/detail.html',
+                      {'data': data['reslut_lst'], 'Result': result, 'ImageTask': imageTask})
 
 
 def log(request, task_id):
     if request.method == 'GET':
         result = ImageTaskInfo.objects.filter(id=task_id)
         return render(request, 'picEval/log.html', {'ImageTask': result})
-
-# def base64_image(path):
-# with open(path, 'rb') as f:
-#         image = base64.b64encode(f.read())
-#         image = image.decode('utf-8')
-#         return image
-#
-#
-# def post_ocr():
-#     module_path = os.path.dirname(__file__) + '/image/timg.jpg'
-#     image_base64 = base64_image(module_path)
-#     print(image_base64)
-#     headers = {
-#         # "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryUxMCPMZA6DRSoTyO",
-#         'Content-Type': "application/x-www-form-urlencoded",
-#
-#     }
-#
-#     params = {
-#         'lang': 'ja',
-#         'image': image_base64,
-#     }
-#     timeout = 20000
-#     resp2 = requests.post('http://api.image.sogou/v1/ocr/basic.json', data=params, headers=headers,
-#                           timeout=int(timeout))
-#     # resp2 = session.post('http://10.143.52.35:10098/v4/ocr/json', data=json.dumps(params), headers=headers,timeout=float(timeout))
-#     # resp = requests.post('http://api.image.sogou/v1/ocr/basic.json', data=params,headers=headers)
-#     print("ocr", resp2.text)
-#
-#
-# def post_image():
-#     module_path = os.path.dirname(__file__) + '/image/timg.jpg'
-#     # print(module_path)
-#     # image_base64 = base64_image(module_path)
-#     # print(image_base64)
-#     # # headers = {"Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary0COmad6TmBUZmkWm"}
-#     #
-#     # params = {
-#     #     'from': 'zh-CHS',
-#     #     'to': 'en',
-#     #     'image': image_base64,
-#     #     'result_type': 'image'
-#     # }
-#     # # resp = requests.post('http://10.143.52.35:10098/v4/ocr/json', data=params,headers=headers)
-#     # resp = requests.post('http://api.image.sogou/v1/open/ocr_translate.json', data=params)
-#     # result = resp.json()
-#     # print("image", result)
-#     #
-#     # # result=json.dumps(resp.text)
-#     # # print(result)
-#     # pic = result['pic']
-#     # pic = base64.b64decode(pic)
-#     # print("pic", pic)
-#     # file = open('timg_dest.jpg', 'wb')
-#     # file.write(pic)
-#     # file.close()
-#     print(module_path)
-#
-#
-# post_image()
