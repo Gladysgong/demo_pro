@@ -434,6 +434,9 @@
                         {% ifequal item.status 9 %}
                         <font color="orange">port-finished</font>
                         {% endifequal %}
+                        {% ifequal item.status 10 %}
+                        <font color="orange">port-error</font>
+                        {% endifequal %}
                     </td>
                     <td>{{ item.username_id }}</td>
                     <td>
