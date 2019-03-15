@@ -527,6 +527,7 @@
             jsons.deploy6 = ''
             jsons.deploy7 = ''
             jsons.deploy8 = ''
+            jsons.deploy9 = ''
             $('.deploy0').each(function () {
                 jsons.deploy0 = jsons.deploy0 + $(this).val() + ','
             })
@@ -554,12 +555,18 @@
             $('.deploy8').each(function () {
                 jsons.deploy8 = jsons.deploy8 + $(this).val() + ','
             })
+            $('.deploy9').each(function () {
+                jsons.deploy9 = jsons.deploy9 + $(this).val() + ','
+            }
+            console.log(jsons)
+            var obj1=JSON.stringify(jsons)
+            console.log(obj1)
 
             var deploy_check = []
             $('input[type=checkbox]:checked').each(function () {
                 deploy_check.push($(this).val())
             })
-            console.log(deploy_check)
+
             var deploy_tag = $('#deploy_tag').val()
 
             if (deploy_check != '') {
@@ -569,7 +576,7 @@
                     async: true,
                     traditional: true,
                     data: {
-                        'deploy_path': jsons,
+                        'deploy_path': obj1,
                         'deploy_check': deploy_check,
                         'deploy_tag': deploy_tag,
                         'env_type': 1
@@ -577,7 +584,7 @@
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-                            location.reload()
+//                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
