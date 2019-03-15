@@ -8,10 +8,6 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('rbac', '0003_auto_20180814_1419'),
-    ]
-
     operations = [
         migrations.CreateModel(
             name='ImageTaskInfo',
@@ -39,7 +35,6 @@ class Migration(migrations.Migration):
                 ('sourceUser', models.CharField(default='', max_length=100)),
                 ('sourcePass', models.CharField(default='', max_length=100)),
                 ('sourcePath', models.CharField(default='', max_length=500)),
-                ('username', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rbac.UserInfo', to_field='username')),
             ],
         ),
         migrations.CreateModel(
