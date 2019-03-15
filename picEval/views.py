@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from picEval.models import ResultInfo, ImageTaskInfo
-from rbac.models import UserInfo
+# from rbac.models import UserInfo
 import requests
 import base64
 import os, json
@@ -65,11 +65,13 @@ def post1(request):
             elif env_type == '1':
                 deploy_ip = '10.141.177.27'
                 deploy_path = request.POST.get('deploy_path')
-                deploy_check = request.POST.get('deploy_check')
+                deploy_check = request.POST.getlist('deploy_check')
                 deploy_tag = request.POST.get('deploy_tag')
 
-                user = UserInfo.objects.get(username='gongyanli')
-                resp = ImageTaskInfo.objects.create(username=user, env_type=env_type, langs=deploy_check,
+                deploy_check=','.join(deploy_check)
+
+                # user = UserInfo.objects.get(username='gongyanli')
+                resp = ImageTaskInfo.objects.create(env_type=env_type, langs=deploy_check,
                                                     svIP=deploy_ip, svPath=deploy_path,
                                                     testtag=deploy_tag)
 

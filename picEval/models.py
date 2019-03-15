@@ -1,11 +1,11 @@
 from django.db import models
-from rbac.models import UserInfo
+# from rbac.models import UserInfo
 
 
 # Create your models here.
 class ImageTaskInfo(models.Model):
     id = models.AutoField(primary_key=True)
-    username = models.ForeignKey(to=UserInfo, to_field='username', on_delete=models.CASCADE)
+    # username = models.ForeignKey(to=UserInfo, to_field='username', on_delete=models.CASCADE)
     status = models.IntegerField(default=0)
     env_type = models.IntegerField(default=0)
 
@@ -20,8 +20,6 @@ class ImageTaskInfo(models.Model):
     base_ocrip = models.CharField(max_length=50, default="")
     test_imgip = models.CharField(max_length=50, default="")
     base_imgip = models.CharField(max_length=50, default="")
-    port_from = models.CharField(max_length=50, default="")
-    port_to = models.CharField(max_length=50, default="")
 
     sum_num = models.IntegerField(default=0)
     finished = models.IntegerField(default=0)
@@ -35,7 +33,7 @@ class ImageTaskInfo(models.Model):
     svIP = models.CharField(max_length=50, default="")
     svUser = models.CharField(max_length=100, default="")
     svPass = models.CharField(max_length=100, default="")
-    svPath = models.CharField(max_length=500, default="")
+    svPath = models.CharField(max_length=1000, default="")
 
     sourceIP = models.CharField(max_length=50, default="")
     sourceUser = models.CharField(max_length=100, default="")

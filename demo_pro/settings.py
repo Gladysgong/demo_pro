@@ -10,11 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os
+import os, djcelery
+
+djcelery.setup_loader()
+BROKER_URL = 'redis://localhost:6379/3'
+BROKER_TRANSPORT = 'redis'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/3'
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -25,8 +33,7 @@ SECRET_KEY = 'z+83&u*sjau*u14hvn*2y58v1xg$2w#ne@5l*$y8($pn!)$o*b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -38,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webqo.apps.WebqoConfig',
-    'rbac',
+    # 'rbac',
+    'djcelery',
+    # 'kombu.transport.django',
     'picEval',
 ]
 
@@ -72,25 +81,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'demo_pro.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'demo_pro',
+        'NAME': 'evalplatform',
         'USER': 'root',
-        'PASSWORD': 'Websearch@qa66',
-        'HOST': '10.144.120.30',
+        'PASSWORD': 'noSafeNoWork@2019',
+        'HOST': '10.141.21.129',
         'PORT': '3306',
         'OPTIONS': {
             'autocommit': True,
         },
     },
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -110,20 +116,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
+USE_L10N = False
+DATE_FORMAT = 'Y-m-d'
+DATETIME_FORMAT = 'Y-m-d H:i:s'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
