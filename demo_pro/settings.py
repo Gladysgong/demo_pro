@@ -33,7 +33,7 @@ SECRET_KEY = 'z+83&u*sjau*u14hvn*2y58v1xg$2w#ne@5l*$y8($pn!)$o*b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*',]
 
 # Application definition
 
@@ -45,9 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webqo.apps.WebqoConfig',
-    # 'rbac',
     'djcelery',
-    # 'kombu.transport.django',
     'picEval',
 ]
 
@@ -132,11 +130,13 @@ USE_TZ = False
 USE_L10N = False
 DATE_FORMAT = 'Y-m-d'
 DATETIME_FORMAT = 'Y-m-d H:i:s'
-
+CELERY_TIMEZONE = TIME_ZONE
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = "/search/odin/daemon/static/"
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

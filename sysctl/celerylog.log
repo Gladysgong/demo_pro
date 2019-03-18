@@ -1,0 +1,8 @@
+[2019-03-16 17:07:49,240: INFO/MainProcess] Connected to redis://localhost:6379/3
+[2019-03-16 17:07:49,252: INFO/MainProcess] mingle: searching for neighbors
+[2019-03-16 17:07:50,257: INFO/MainProcess] mingle: all alone
+[2019-03-16 17:07:50,265: WARNING/MainProcess] /search/odin/daemon/.venv/lib/python3.6/site-packages/celery/fixups/django.py:265: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
+[2019-03-16 17:07:50,265: WARNING/MainProcess] celery_man@nm_21_129 ready.
+[2019-03-16 17:15:24,926: INFO/MainProcess] Received task: picEval.task.get_pic_ocr[a9e669f1-031e-4867-a3cd-dc53fd30195e]
+[2019-03-16 17:15:24,935: INFO/MainProcess] Task picEval.task.get_pic_ocr[a9e669f1-031e-4867-a3cd-dc53fd30195e] succeeded in 0.0071855109999887645s: 0
