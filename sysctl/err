@@ -232,3 +232,18 @@
 31567:C 18 Mar 11:06:00.081 * DB saved on disk
 31567:C 18 Mar 11:06:00.081 * RDB: 4 MB of memory used by copy-on-write
 4478:M 18 Mar 11:06:00.180 * Background saving terminated with success
+4478:M 18 Mar 12:06:01.050 * 1 changes in 3600 seconds. Saving...
+4478:M 18 Mar 12:06:01.051 * Background saving started by pid 3237
+3237:C 18 Mar 12:06:01.052 * DB saved on disk
+3237:C 18 Mar 12:06:01.053 * RDB: 4 MB of memory used by copy-on-write
+4478:M 18 Mar 12:06:01.151 * Background saving terminated with success
+4478:M 18 Mar 13:06:02.004 * 1 changes in 3600 seconds. Saving...
+4478:M 18 Mar 13:06:02.004 * Background saving started by pid 7182
+7182:C 18 Mar 13:06:02.006 * DB saved on disk
+7182:C 18 Mar 13:06:02.006 * RDB: 4 MB of memory used by copy-on-write
+4478:M 18 Mar 13:06:02.105 * Background saving terminated with success
+4478:M 18 Mar 14:06:03.012 * 1 changes in 3600 seconds. Saving...
+4478:M 18 Mar 14:06:03.013 * Background saving started by pid 11771
+11771:C 18 Mar 14:06:03.014 * DB saved on disk
+11771:C 18 Mar 14:06:03.015 * RDB: 4 MB of memory used by copy-on-write
+4478:M 18 Mar 14:06:03.113 * Background saving terminated with success

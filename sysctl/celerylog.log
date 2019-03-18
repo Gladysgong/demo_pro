@@ -6,3 +6,5 @@
 [2019-03-16 17:07:50,265: WARNING/MainProcess] celery_man@nm_21_129 ready.
 [2019-03-16 17:15:24,926: INFO/MainProcess] Received task: picEval.task.get_pic_ocr[a9e669f1-031e-4867-a3cd-dc53fd30195e]
 [2019-03-16 17:15:24,935: INFO/MainProcess] Task picEval.task.get_pic_ocr[a9e669f1-031e-4867-a3cd-dc53fd30195e] succeeded in 0.0071855109999887645s: 0
+[2019-03-18 14:29:41,592: INFO/MainProcess] Received task: picEval.task.get_pic_ocr[9110685d-cc5b-4999-89dd-efe6fcd26eab]
+[2019-03-18 14:29:41,599: INFO/MainProcess] Task picEval.task.get_pic_ocr[9110685d-cc5b-4999-89dd-efe6fcd26eab] succeeded in 0.006917080987477675s: 0
