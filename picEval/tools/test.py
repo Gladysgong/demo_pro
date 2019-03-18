@@ -7,14 +7,15 @@ import logging
 from Editdistance import *
 
 # 数据库配置
-database_host = "10.134.120.30"
-database_db = "demo_pro"
+database_host = "10.141.21.129"
+database_db = "evalplatform"
 database_image = "picEval_imagetaskinfo"
 database_result = "picEval_resultinfo"
 database_user = "root"
-database_pass = "Websearch@qa66"
+database_pass = "noSafeNoWork@2019"
 
 # 图片路径配置
+# rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
 rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
 origin_secpath = r'/static/origin/'
 dest_secpath = r'/static/dest/port/'
