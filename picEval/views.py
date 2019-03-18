@@ -20,12 +20,11 @@ def post1(request):
         if page:
             curent_page = int(page)
         try:
-            result_list = ImageTaskInfo.objects.all()
+            result_list = ImageTaskInfo.objects.order_by('-id')
             page_obj = pagination.Page(curent_page, len(result_list), 15, 5)
             data = result_list[page_obj.start:page_obj.end]
             page_str = page_obj.page_str("/picEval/pic?page=")
         except Exception as e:
-            print(e)
             pass
         return render(request, 'picEval/post.html', {'result_image': data, 'page_str': page_str})
     elif request.method == 'POST':
@@ -46,8 +45,7 @@ def post1(request):
                 port_tag = request.POST.get('port_tag')
                 port_status = 7
 
-                user = UserInfo.objects.get(username='gongyanli')
-                resp = ImageTaskInfo.objects.create(username=user, env_type=env_type, status=port_status,
+                resp = ImageTaskInfo.objects.create(env_type=env_type, status=port_status,
                                                     langs=port_langs,
                                                     test_ocrip=port_testocrip, base_ocrip=port_baseocrip,
                                                     test_imgip=port_testimgip,
@@ -70,7 +68,6 @@ def post1(request):
 
                 deploy_check=','.join(deploy_check)
 
-                # user = UserInfo.objects.get(username='gongyanli')
                 resp = ImageTaskInfo.objects.create(env_type=env_type, langs=deploy_check,
                                                     svIP=deploy_ip, svPath=deploy_path,
                                                     testtag=deploy_tag)
