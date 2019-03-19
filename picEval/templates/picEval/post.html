@@ -442,7 +442,7 @@
                     <td>
                         <a href="/picEval/pic/detail_{{ item.id }}.html">详情</a>
                     </td>
-                    <td><button>取消</button></td>
+                    <td><button task_id="{{ item.id }}">取消</button></td>
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -616,6 +616,31 @@
         $('#port_baseimgip').val(port_baseimgip);
 
     })
+
+
+    $('#cancel').click(function () {
+            var task_id = $(this).attr('task_id');
+            $.ajax({
+                type: "POST",
+                url: "/picEval/pic/cancel",
+                async: true,
+                traditional: true,
+                data: {
+                    'task_id': task_id,
+                },
+                dataType: 'JSON',
+                success: function (obj) {
+                    if (obj.status) {
+                        location.reload();
+                    } else {
+                        $('#error_xml').text(obj.error);
+                    }
+                },
+                error: function () {
+
+                },
+            });
+        })
 
 </script>
 {% endblock %}

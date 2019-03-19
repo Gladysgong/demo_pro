@@ -100,6 +100,15 @@ def post1(request):
 #
 #         return render(request, 'picEval/detail.html', {'Result': result, 'ImageTask': imageTask})
 
+def cancel(request):
+    ret = {'status': True, 'error': None, 'data': None}
+    try:
+        task_id = request.POST.get('task_id')
+        ImageTaskInfo.objects.filter(id=task_id).update(status=6)
+    except Exception as e:
+        ret['error'] = 'error:' + str(e)
+        ret['status'] = False
+    return HttpResponse(json.dumps(ret))
 
 def detail(request, task_id):
     if request.method == 'GET':
