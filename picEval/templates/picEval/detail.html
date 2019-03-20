@@ -21,7 +21,7 @@
                     </thead>
                     <tbody id="resultBody">
                     {% for item in ImageTask %}
-                    <tr>path位置</tr>
+                    <tr>rsync路径：{{ item.path }}</tr>
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td>{{ item.id }}</td>
                         <td>{{ item.start_time }}</td>
