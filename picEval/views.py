@@ -3,7 +3,7 @@ from picEval.models import ResultInfo, ImageTaskInfo
 # from rbac.models import UserInfo
 import requests
 import base64
-import os, json
+import os, json,signal,time
 from django.core import serializers
 # from picEval.tools.test import post_ocr
 from picEval.tools import pagination
@@ -104,7 +104,14 @@ def cancel(request):
     ret = {'status': True, 'error': None, 'data': None}
     try:
         task_id = request.POST.get('task_id')
-        ImageTaskInfo.objects.filter(id=task_id).update(status=6)
+        data=ImageTaskInfo.objects.get(id=task_id)
+        if data.env_type==int(2):
+            print()
+            os.kill(int(data.pid),signal.SIGTERM)
+            ImageTaskInfo.objects.filter(id=task_id).update(end_time=get_now_time(),status=6)
+
+        else:
+            ImageTaskInfo.objects.filter(id=task_id).update(status=6)
     except Exception as e:
         ret['error'] = 'error:' + str(e)
         ret['status'] = False
@@ -135,3 +142,7 @@ def log(request, task_id):
     if request.method == 'GET':
         result = ImageTaskInfo.objects.filter(id=task_id)
         return render(request, 'picEval/log.html', {'ImageTask': result})
+
+def get_now_time():
+    timeArray = time.localtime()
+    return time.strftime("%Y-%m-%d %H:%M:%S", timeArray)

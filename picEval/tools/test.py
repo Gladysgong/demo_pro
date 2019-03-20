@@ -15,8 +15,8 @@ database_user = "root"
 database_pass = "noSafeNoWork@2019"
 
 # 图片路径配置
-# rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
-rootpath = r'/search/odin/daemon'
+rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
+# rootpath = r'/search/odin/daemon'
 origin_secpath = r'/static/origin/'
 dest_secpath = r'/static/dest/port/'
 
@@ -120,6 +120,16 @@ def save_status(sum_num, status):
         db.commit()
     except Exception as e:
         update_errorlog("[%s] Update status [%d] failed. \n" % (get_now_time(), status))
+    return 0
+
+
+def set_pid(pid):
+    sql = "UPDATE %s set pid='%s' where id=%d" % (database_image,pid,mission_id)
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except Exception as e:
+        update_errorlog("[%s] Insert pid failed. \n" % (get_now_time()))
     return 0
 
 
@@ -268,6 +278,7 @@ def post_image(from_langs, to_langs, base64image, url, filename, type,isStorePat
         return testImg, path
 
 
+
 def distance(result_test, result_base):
     json = {
         'img_diff_count': 1,
@@ -294,4 +305,6 @@ def distance(result_test, result_base):
 if __name__ == '__main__':
     # post_ocr('http://api.image.sogou/v1/ocr/basic.json', 'http://api.image.sogou/v1/ocr/basic.json', 'zh-CHS')
     # post_image('en', 'zh-CHS', base64, filename, url, type)
+    pid=os.getpid()
+    set_pid(pid)
     post_ocr(mission_id, port_testocrip, port_baseocrip, port_testimgip, port_baseimgip, from_langs, to_langs)
