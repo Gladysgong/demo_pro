@@ -21,13 +21,12 @@
                     </thead>
                     <tbody id="resultBody">
                     {% for item in ImageTask %}
-                    <tr>rsync路径：{{ item.path }}</tr>
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td>{{ item.id }}</td>
                         <td>{{ item.start_time }}</td>
                         <td>{{ item.failed }} | {% widthratio item.failed item.finished 1 %}</td>
                         <td>{{ item.finished }}</td>
-                        <td>位置</td>
+                        <td>{{ item.path }}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
