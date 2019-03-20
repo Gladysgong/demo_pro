@@ -28,6 +28,8 @@ class ImageTaskInfo(models.Model):
     text_diff_count = models.IntegerField(default=0)
     text_base_count = models.IntegerField(default=0)
 
+    path=models.CharField(max_length=500,default="")
+
     langs = models.CharField(max_length=50, default="")
 
     svIP = models.CharField(max_length=50, default="")

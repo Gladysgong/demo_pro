@@ -17,9 +17,11 @@
                         <th>已完成个数</th>
                         <th>执行结果存储位置</th>
                     </tr>
+                    <tr></tr>
                     </thead>
                     <tbody id="resultBody">
                     {% for item in ImageTask %}
+                    <tr>path位置</tr>
                     <tr req_id="{{ item.id }}" class="get_resultBody">
                         <td>{{ item.id }}</td>
                         <td>{{ item.start_time }}</td>
