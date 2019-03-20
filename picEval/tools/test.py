@@ -15,8 +15,8 @@ database_user = "root"
 database_pass = "noSafeNoWork@2019"
 
 # 图片路径配置
-rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
-# rootpath = r'/search/odin/daemon/evalpaltform/demo_pro'
+# rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
+rootpath = r'/search/odin/daemon'
 origin_secpath = r'/static/origin/'
 dest_secpath = r'/static/dest/port/'
 
