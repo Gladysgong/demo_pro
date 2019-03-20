@@ -15,8 +15,8 @@ database_user = "root"
 database_pass = "noSafeNoWork@2019"
 
 # 图片路径配置
-# rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
-rootpath = r'/search/odin/daemon/evalpaltform/demo_pro'
+rootpath = r'/Users/apple/AnacondaProjects/demo_pro'
+# rootpath = r'/search/odin/daemon/evalpaltform/demo_pro'
 origin_secpath = r'/static/origin/'
 dest_secpath = r'/static/dest/port/'
 
@@ -154,6 +154,9 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
         update_errorlog("[%s] Port deploy: Post is running. \n" % (get_now_time()))
 
         for filename in os.listdir(origin_path):
+            isStorePathExists = rootpath + dest_secpath + str(mission_id)  + '/' + filename + '/'
+            storePath = dest_secpath + str(mission_id) + '/' + filename + '/'
+
             base64image = imageTobase64(origin_path + filename)
             params_ocr = {
                 'lang': from_langs,
@@ -164,6 +167,13 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
 
             ocr_test = resp_test.json()
             ocr_base = resp_base.json()
+
+            if not os.path.exists(isStorePathExists):
+                os.makedirs(isStorePathExists)
+
+            with open(isStorePathExists + 'base.json', 'w') as store_base, open(isStorePathExists + 'test.json','w') as store_test:
+                store_base.write(json.dumps(ocr_base))
+                store_test.write(json.dumps(ocr_test))
 
             test_issuccess = ocr_test['success']
             base_issuccess = ocr_base['success']
@@ -181,8 +191,8 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
                 rankInfo = distance_data['sum_distance']
                 result = json.dumps(distance_data['result'])
 
-                test_Img1, testpath = post_image(from_langs, to_langs, base64image, test_imgip, filename, 'test')
-                test_Img2, basepath = post_image(from_langs, to_langs, base64image, base_imgip, filename, 'base')
+                test_Img1, testpath = post_image(from_langs, to_langs, base64image, test_imgip, filename, 'test',isStorePathExists,storePath)
+                test_Img2, basepath = post_image(from_langs, to_langs, base64image, base_imgip, filename, 'base',isStorePathExists,storePath)
 
                 sql_result = "INSERT INTO  %s(taskid_id,rankInfo,result,testImg,basepath,testpath,test_status,base_status,filename) values('%d','%d','%s','%s','%s','%s','%d','%d','%s')" % (
                     database_result, mission_id, rankInfo, pymysql.escape_string(result), test_Img1, basepath,
@@ -194,18 +204,17 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
             else:
                 failed += 1
 
-        sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d',status=9 where id=%d" % (
+        path = rootpath + dest_secpath + str(mission_id)
+        sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d',status=9 ,path='%s' where id=%d" % (
             database_image, get_now_time(), sum_num, finished, failed, img_diff_count, text_diff_count,
-            text_base_count,
-            mission_id)
+            text_base_count,path,mission_id)
 
         cursor.execute(sql_image)
         db.commit()
 
         status_data = get_imagetaskinfo()
         if status_data[3] == 9:
-            update_errorlog(
-                "[%s] Port deploy: Post [%s] to [%s] has been completed. \n" % (get_now_time(), from_langs, to_langs))
+            update_errorlog("[%s] Port deploy: Post [%s] to [%s] has been completed. \n" % (get_now_time(), from_langs, to_langs))
         return 1
     else:
         update_errorlog("[%s] Port deploy:Status is not assigned. \n" % (get_now_time()))
@@ -213,7 +222,7 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
         return 0
 
 
-def post_image(from_langs, to_langs, base64image, url, filename, type):
+def post_image(from_langs, to_langs, base64image, url, filename, type,isStorePathExists,storePath):
     params_img = {
         'from': from_langs,
         'to': to_langs,
@@ -231,22 +240,22 @@ def post_image(from_langs, to_langs, base64image, url, filename, type):
         pic = result['pic']
         pic = base64.b64decode(pic)
 
-        filename = filename[:-4]
-
-        isPath = rootpath + dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
-        storePath = dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
-        if not os.path.exists(isPath):
-            os.makedirs(isPath)
+        # filename = filename[:-4]
+        #
+        # isPath = rootpath + dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
+        # storePath = dest_secpath + from_langs + '_' + to_langs + '/' + filename + '/'
+        # if not os.path.exists(isPath):
+        #     os.makedirs(isPath)
 
         if type == 'test':
-            file = open(isPath + filename + '_test.jpg', 'wb')
-            path = storePath + filename + '_test.jpg'
+            file = open(isStorePathExists + 'test.jpg', 'wb')
+            path = storePath + 'test.jpg'
             file.write(pic)
             # ResultInfo.objects.filter(id=ResultInfo_id).update(testpath=path)
             file.close()
         elif type == 'base':
-            file = open(isPath + filename + '_base.jpg', 'wb')
-            path = storePath + filename + '_base.jpg'
+            file = open(isStorePathExists + 'base.jpg', 'wb')
+            path = storePath + 'base.jpg'
             file.write(pic)
             # ResultInfo.objects.filter(id=ResultInfo_id).update(basepath=path)
             file.close()
