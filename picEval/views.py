@@ -122,8 +122,14 @@ def detail(request, task_id):
         data = dict()
         imageTask = ImageTaskInfo.objects.filter(id=task_id)
         image=ImageTaskInfo.objects.get(id=task_id)
-        errorRate=round(float(image.failed/image.finished),2)
-        rowRate=round(float(image.text_diff_count/image.text_base_count),2)
+        if image.finished==int(0) or image.failed==int(0):
+            errorRate=0
+        else:
+            errorRate=round(float(image.failed/image.finished),2)
+        if image.text_base_count==int(0) or image.text_diff_count==int(0):
+            rowRate=0
+        else:
+            rowRate=round(float(image.text_diff_count/image.text_base_count),2)
         result = ResultInfo.objects.filter(taskid_id=task_id)
         data['reslut_lst'] = json.loads(serializers.serialize("json", result))
         print(data)
