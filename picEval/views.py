@@ -120,8 +120,11 @@ def cancel(request):
 def detail(request, task_id):
     if request.method == 'GET':
         data = dict()
-        result = ResultInfo.objects.filter(taskid_id=task_id)
         imageTask = ImageTaskInfo.objects.filter(id=task_id)
+        image=ImageTaskInfo.objects.get(id=task_id)
+        errorRate=round(float(image.failed/image.finished),2)
+        rowRate=round(float(image.text_diff_count/image.text_base_count),2)
+        result = ResultInfo.objects.filter(taskid_id=task_id)
         data['reslut_lst'] = json.loads(serializers.serialize("json", result))
         print(data)
         for e in result:
@@ -135,7 +138,7 @@ def detail(request, task_id):
 
         # print('result',result)
         return render(request, 'picEval/detail.html',
-                      {'data': data['reslut_lst'], 'Result': result, 'ImageTask': imageTask})
+                      {'data': data['reslut_lst'], 'Result': result, 'ImageTask': imageTask,'error':errorRate,'row':rowRate})
 
 
 def log(request, task_id):
