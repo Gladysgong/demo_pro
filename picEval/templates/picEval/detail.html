@@ -29,7 +29,7 @@
                         <td>{{ item.failed }} | {% widthratio item.failed item.finished 1 %}</td>
                         <td>{{ item.finished }}</td>
                         <td>{{ item.img_diff_count }}</td>
-                        <td>{{ item.text_diff_count/text_base_count }}</td>
+                        <td>{% widthratio item.text_diff_count item.text_base_count 1 %}</td>
                         <td>{{ item.path }}</td>
                     </tr>
                     {% endfor %}
