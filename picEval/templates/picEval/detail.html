@@ -92,15 +92,15 @@
 
     var lst={{data|safe}}
     console.log(lst)
-    table_title='<table class="table"><thead><tr><th>原始图片</th><th>Test回贴图</th><th>Base回贴图</th><th>编辑距离数据</th></tr></thead><tbody>'
+    table_title='<table class="table"><thead><tr><th>原始图片</th><th>Test回贴图</th><th>Base回贴图</th></tr></thead><tbody>'
     table_end='</tbody></table>'
     table_body=''
     for (item in lst){
         console.log('index'+item)
         table_body=table_body+'<tr><td><img src="'+lst[item]['fields']['testImg']+'"/>'+'</td><td><img src="'+lst[item]['fields']['testpath']+'"/>'+'</td><td><img src="'+lst[item]['fields']['basepath']+'"/>'+'</td>'
-        sub_table_title='<td><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
+        sub_table_title='<tr><td><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
         sub_table_body=''
-        sub_table_end='</table></td>'
+        sub_table_end='</table></td></tr>'
         for(k in lst[item]['fields']){
             if(k=='result'){
                 json_str=JSON.parse(lst[item]['fields'][k])
@@ -116,6 +116,7 @@
     }
     console.log(table_body)
     $('#imageInfo').html(table_title+table_body+table_end)
+
 
 
 </script>
