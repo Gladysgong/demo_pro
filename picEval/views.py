@@ -66,13 +66,13 @@ def post1(request):
                 deploy_check = request.POST.getlist('deploy_check')
                 deploy_tag = request.POST.get('deploy_tag')
 
-                deploy_check=','.join(deploy_check)
-
-                resp = ImageTaskInfo.objects.create(env_type=env_type, langs=deploy_check,
+                # deploy_check=','.join(deploy_check)
+                for each in deploy_check:
+                    resp = ImageTaskInfo.objects.create(env_type=env_type, langs=each,
                                                     svIP=deploy_ip, svPath=deploy_path,
                                                     testtag=deploy_tag)
 
-                return HttpResponse(json.dumps(ret))
+                    return HttpResponse(json.dumps(ret))
             else:
                 print('未知评测类型！')
         except Exception as e:
