@@ -99,9 +99,10 @@
     for (item in lst){
         console.log('index'+item)
         var testImg='http://webqa.eval.nm.ted'+lst[item]['fields']['testImg']
+        var x='http://127.0.0.1:8000'+lst[item]['fields']['testImg']
         var testPath='http://webqa.eval.nm.ted'+lst[item]['fields']['testpath']
         var basePath='http://webqa.eval.nm.ted'+lst[item]['fields']['basepath']
-        table_body=table_body+'<tr><td><a href="{{ testImg }}" target="_blank"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a href="{{ testPath }}" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a href="{{ basePath }}" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
+        table_body=table_body+'<tr><td><a target="_blank" class="testImg"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a href="{{ testPath }}" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a href="{{ basePath }}" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
         sub_table_title='<tr><td><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
         sub_table_body=''
         sub_table_end='</table></td></tr>'
@@ -120,6 +121,9 @@
     }
     console.log(table_body)
     $('#imageInfo').html(table_title+table_body+table_end)
+
+
+    $('.testImg').attr('href',testImg);
 
 
 
