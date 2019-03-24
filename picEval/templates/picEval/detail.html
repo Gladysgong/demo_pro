@@ -105,7 +105,7 @@
             if(k=='result'){
                 json_str=JSON.parse(lst[item]['fields'][k])
                 for(b in json_str){
-                    sub_table_body=sub_table_body+'<tr><td>'+json_str[b]['testcontent']+'</td>'+'<td>'+json_str[b]['basecontent']+'</td>'+'<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+json_str[b]['distance']+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>'
+                    sub_table_body=sub_table_body+'<tr><td style="word-break:keep-all">'+json_str[b]['testcontent']+'</td>'+'<td style="word-break:keep-all">'+json_str[b]['basecontent']+'</td>'+'<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+json_str[b]['distance']+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>'
                 }
             }
             if(k=='rankInfo'){
