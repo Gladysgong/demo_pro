@@ -171,6 +171,7 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
             params_ocr = {
                 'lang': from_langs,
                 'image': base64image,
+                'direction_detect': 'true'
             }
             resp_test = requests.post(test_ocrip, data=params_ocr, headers=headers)
             resp_base = requests.post(base_ocrip, data=params_ocr, headers=headers)
