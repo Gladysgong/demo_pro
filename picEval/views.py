@@ -71,8 +71,7 @@ def post1(request):
                     resp = ImageTaskInfo.objects.create(env_type=env_type, langs=each,
                                                     svIP=deploy_ip, svPath=deploy_path,
                                                     testtag=deploy_tag)
-
-                    return HttpResponse(json.dumps(ret))
+                return HttpResponse(json.dumps(ret))
             else:
                 print('未知评测类型！')
         except Exception as e:
@@ -117,8 +116,13 @@ def cancel(request):
         ret['status'] = False
     return HttpResponse(json.dumps(ret))
 
+
 def detail(request, task_id):
     if request.method == 'GET':
+        page=request.GET.get('page')
+        curent_page=1
+        if page:
+            curent_page=int(page)
         data = dict()
         imageTask = ImageTaskInfo.objects.filter(id=task_id)
         image=ImageTaskInfo.objects.get(id=task_id)
