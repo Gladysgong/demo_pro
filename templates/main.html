@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <title>Sogou Test</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,25 +10,35 @@
     <!-- Main CSS-->
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-      img{
-	    width: auto;
-	    height: auto;
-	    max-width: 100%;
-	    max-height: 100%;
-}
+        img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        html, body, #imageInfo {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-align: center;
+        }
     </style>
-  </head>
-  <body class="app sidebar-mini rtl">
-    <main class="app-content" style="margin-left: 0px;margin-top: 0px;">
-        {% block content%}{% endblock %}
-    </main>
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/jquery.cookie.js' %}"></script>
-    {% block js%}{% endblock %}
-  </body>
+</head>
+<body class="app sidebar-mini rtl">
+<main class="app-content" style="margin-left: 0px;margin-top: 0px;">
+    {% block content%}{% endblock %}
+</main>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+{% block js%}{% endblock %}
+</body>
 </html>
