@@ -112,6 +112,28 @@ def get_imagetaskinfo():
 
     return data
 
+def update_imageTaskInfo(sum_num,finished,failed,img_diff_count,text_diff_count,text_base_count,path):
+    sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d',status=4 ,path='%s' where id=%d" % (
+        database_image, get_now_time(), sum_num, finished, failed, img_diff_count, text_diff_count,text_base_count, path,mission_id)
+
+    try:
+        cursor.execute(sql_image)
+        db.commit()
+    except Exception as e:
+        pass
+    return 0
+
+def insert_resultInfo(rankInfo,result,test_Img1,basepath,testpath,test_issuccess,base_issuccess,filename):
+    sql_result = "INSERT INTO  %s(taskid_id,rankInfo,result,testImg,basepath,testpath,test_status,base_status,filename) values('%d','%d','%s','%s','%s','%s','%d','%d','%s')" % (
+                            database_result, mission_id, rankInfo, pymysql.escape_string(result), test_Img1, basepath,
+                            testpath, test_issuccess, base_issuccess, filename)
+    try:
+        cursor.execute(sql_result)
+        db.commit()
+    except Exception as e:
+        pass
+    return 0
+
 
 def save_status(sum_num, status):
     sql = "UPDATE %s set start_time='%s', sum_num='%d', status='%d' where id=%d" % (database_image, get_now_time(),sum_num, status, mission_id)
@@ -145,10 +167,9 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
         'Content-Type': "application/x-www-form-urlencoded",
     }
 
-    origin_path = rootpath + origin_secpath + from_langs + '_' + to_langs + '/'
-    ori_stroePath = origin_secpath + from_langs + '_' + to_langs + '/'
+    PATH=rootpath + origin_secpath + from_langs + '/'
 
-    sum_num = len(os.listdir(origin_path))
+    sum_num = len(os.listdir(PATH))
 
     failed = 0
     finished = 0
@@ -163,11 +184,12 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
         save_status(sum_num, status=8)
         update_errorlog("[%s] Port deploy: Post is running. \n" % (get_now_time()))
 
-        for filename in os.listdir(origin_path):
-            isStorePathExists = rootpath + dest_secpath + str(mission_id)  + '/' + filename + '/'
-            storePath = dest_secpath + str(mission_id) + '/' + filename + '/'
+        path = rootpath + dest_secpath + str(mission_id)
+        for filename in os.listdir(PATH):
+            isStorePathExists = PATH + to_langs +'/' + filename + '/'
+            storePath = dest_secpath + str(mission_id)  + '/'+from_langs+'/'+to_langs+'/' + filename + '/'
 
-            base64image = imageTobase64(origin_path + filename)
+            base64image = imageTobase64(PATH + filename)
             params_ocr = {
                 'lang': from_langs,
                 'image': base64image,
@@ -185,6 +207,7 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
             with open(isStorePathExists + 'base.json', 'w') as store_base, open(isStorePathExists + 'test.json','w') as store_test:
                 store_base.write(json.dumps(ocr_base))
                 store_test.write(json.dumps(ocr_test))
+                update_errorlog("[%s] insert success. \n" % (get_now_time()))
 
             test_issuccess = ocr_test['success']
             base_issuccess = ocr_base['success']
@@ -195,7 +218,9 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
                 # 计算距离
                 distance_data = json.loads(ReturnRes(ocr_test, ocr_base))
 
-                img_diff_count += distance_data['img_diff_count']
+                if distance_data['img_diff_count'] != int(0):
+                    img_diff_count += 1
+
                 text_diff_count += distance_data['text_diff_count']
                 text_base_count += distance_data['text_base_count']
 
@@ -205,35 +230,32 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
                 test_Img1, testpath = post_image(from_langs, to_langs, base64image, test_imgip, filename, 'test',isStorePathExists,storePath)
                 test_Img2, basepath = post_image(from_langs, to_langs, base64image, base_imgip, filename, 'base',isStorePathExists,storePath)
 
-                sql_result = "INSERT INTO  %s(taskid_id,rankInfo,result,testImg,basepath,testpath,test_status,base_status,filename) values('%d','%d','%s','%s','%s','%s','%d','%d','%s')" % (
-                    database_result, mission_id, rankInfo, pymysql.escape_string(result), test_Img1, basepath,
-                    testpath, test_issuccess, base_issuccess, filename)
+                # sql_result = "INSERT INTO  %s(taskid_id,rankInfo,result,testImg,basepath,testpath,test_status,base_status,filename) values('%d','%d','%s','%s','%s','%s','%d','%d','%s')" % (
+                #     database_result, mission_id, rankInfo, pymysql.escape_string(result), test_Img1, basepath,
+                #     testpath, test_issuccess, base_issuccess, filename)
+                #
+                # cursor.execute(sql_result)
+                # db.commit()
 
-                cursor.execute(sql_result)
-                db.commit()
+                insert_resultInfo(rankInfo, result, test_Img1, basepath, testpath, test_issuccess, base_issuccess,filename)
+
+                update_imageTaskInfo(sum_num, finished, failed, img_diff_count, text_diff_count, text_base_count, path)
+
 
             else:
                 failed += 1
 
-        path = rootpath + dest_secpath + str(mission_id)
-        sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d',status=9 ,path='%s' where id=%d" % (
-            database_image, get_now_time(), sum_num, finished, failed, img_diff_count, text_diff_count,
-            text_base_count,path,mission_id)
-
-        cursor.execute(sql_image)
-        db.commit()
-
         status_data = get_imagetaskinfo()
         if status_data[3] == 9:
-            update_errorlog("[%s] Port deploy: Post [%s] to [%s] has been completed. \n" % (get_now_time(), from_langs, to_langs))
+            update_errorlog("[%s] Port deploy: The post [%s] to [%s] has been completed. \n" % (get_now_time(), from_langs, to_langs))
         return 1
     else:
-        update_errorlog("[%s] Port deploy:Status is not assigned. \n" % (get_now_time()))
+        update_errorlog("[%s] Port deploy: Status is not assigned. \n" % (get_now_time()))
         save_status(sum_num,status=10)
         return 0
 
 
-def post_image(from_langs, to_langs, base64image, url, filename, type,isStorePathExists,storePath):
+def post_image(from_langs, to_langs, base64image, url, filename, type, isStorePathExists, storePath):
     params_img = {
         'from': from_langs,
         'to': to_langs,
@@ -244,7 +266,7 @@ def post_image(from_langs, to_langs, base64image, url, filename, type,isStorePat
     resp = requests.post(url, data=params_img)
     result = resp.json()
 
-    testImg = origin_secpath + from_langs + '_' + to_langs + '/' + filename
+    testImg = origin_secpath + from_langs + '/' + filename
     path = ''
 
     if result['success'] == int(1):
