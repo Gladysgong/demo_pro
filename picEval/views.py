@@ -70,7 +70,7 @@ def post1(request):
                 for each in deploy_check:
                     resp = ImageTaskInfo.objects.create(env_type=env_type, langs=each,
                                                     svIP=deploy_ip, svPath=deploy_path,
-                                                    testtag=deploy_tag,status=1)
+                                                    testtag=deploy_tag)
                 return HttpResponse(json.dumps(ret))
             else:
                 print('未知评测类型！')
@@ -104,14 +104,10 @@ def cancel(request):
     try:
         task_id = request.POST.get('task_id')
         data=ImageTaskInfo.objects.get(id=task_id)
-        if data.env_type==int(2):
-            os.kill(int(data.pid),signal.SIGTERM)
-            ImageTaskInfo.objects.filter(id=task_id).update(end_time=get_now_time(),status=6)
 
-        else:
-            # ImageTaskInfo.objects.filter(id=task_id).update(status=6)
-            os.kill(int(data.pid), signal.SIGTERM)
-            ImageTaskInfo.objects.filter(id=task_id).update(end_time=get_now_time(), status=6)
+        os.kill(int(data.pid),signal.SIGTERM)
+        ImageTaskInfo.objects.filter(id=task_id).update(end_time=get_now_time(),status=5)
+
     except Exception as e:
         ret['error'] = 'error:' + str(e)
         ret['status'] = False
