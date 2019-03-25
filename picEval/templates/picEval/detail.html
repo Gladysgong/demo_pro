@@ -103,19 +103,18 @@
     table_body=''
     for (item in lst){
         console.log('index'+item)
+        var prefix='http://webqa.eval.nm.ted'
         var testImg='http://webqa.eval.nm.ted'+lst[item]['fields']['testImg']
         var testPath='http://webqa.eval.nm.ted'+lst[item]['fields']['testpath']
         var basePath='http://webqa.eval.nm.ted'+lst[item]['fields']['basepath']
 
 
-        table_body=table_body+'<tr><td>'+lst[item]['pk']+'</td><td><a target="_blank" class="testImg"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a class="testPath" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a class="basePath" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
+        table_body=table_body+'<tr><td>'+lst[item]['pk']+'</td><td><a href="'+prefix+lst[item]['fields']['testImg']+'" target="_blank" class="testImg"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a href="'+prefix+lst[item]['fields']['testpath']+'" class="testPath" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a href="'+prefix+lst[item]['fields']['basepath']+'" class="basePath" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
         sub_table_title='<tr><td colspan="4"><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
         sub_table_body=''
         sub_table_end='</table></tr>'
 
-        $('.testImg').attr('href',testImg);
-        $('.basePath').attr('href',basePath);
-        $('.testPath').attr('href',testPath);
+
 
         for(k in lst[item]['fields']){
             if(k=='result'){
@@ -129,8 +128,13 @@
             }
         }
         table_body=table_body+sub_table_title+sub_table_body+sub_table_end+'</tr>'
+
+        $('.testImg').attr('href',testImg);
+        $('.basePath').attr('href',basePath);
+        $('.testPath').attr('href',testPath);
     }
     console.log(table_body)
+
     $('#imageInfo').html(table_title+table_body+table_end)
 
 
