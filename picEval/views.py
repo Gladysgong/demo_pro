@@ -117,12 +117,14 @@ def cancel(request):
     return HttpResponse(json.dumps(ret))
 
 
-def detail(request, task_id):
+def detail(request):
     if request.method == 'GET':
+        task_id=request.GET.get('num')
         page=request.GET.get('page')
         curent_page=1
         if page:
             curent_page=int(page)
+
         data = dict()
         imageTask = ImageTaskInfo.objects.filter(id=task_id)
         image=ImageTaskInfo.objects.get(id=task_id)
@@ -134,11 +136,20 @@ def detail(request, task_id):
             rowRate=0
         else:
             rowRate=round(float(image.text_diff_count/image.text_base_count),2)
+
         result = ResultInfo.objects.filter(taskid_id=task_id)
         data['reslut_lst'] = json.loads(serializers.serialize("json", result))
-        print(data)
+        # print('data',data)
+
+        page_obj=pagination.Page(curent_page,len(data['reslut_lst']),20,9)
+
+        final=data['reslut_lst'][page_obj.start:page_obj.end]
+
+        page_str=page_obj.page_str('/picEval/pic/detail/?num='+task_id+'&page=')
+
+
         for e in result:
-            print(json.loads(e.result))
+            # print(json.loads(e.result))
             x = json.loads(e.result)
 
             # for i in x:
@@ -148,7 +159,7 @@ def detail(request, task_id):
 
         # print('result',result)
         return render(request, 'picEval/detail.html',
-                      {'data': data['reslut_lst'], 'Result': result, 'ImageTask': imageTask,'error':errorRate,'row':rowRate})
+                      {'data': final, 'Result': result, 'ImageTask': imageTask,'error':errorRate,'row':rowRate,'page_str':page_str})
 
 
 def log(request, task_id):
