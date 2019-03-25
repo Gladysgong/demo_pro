@@ -186,8 +186,8 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
 
         path = rootpath + dest_secpath + str(mission_id)
         for filename in os.listdir(PATH):
-            isStorePathExists = path + '/'+from_langs+'/'+to_langs +'/' + filename + '/'
-            storePath = dest_secpath + str(mission_id)  + '/'+from_langs+'/'+to_langs+'/' + filename + '/'
+            isStorePathExists = path + '/'+from_langs+'_'+to_langs +'/' + filename + '/'
+            storePath = dest_secpath + str(mission_id)  + '/'+from_langs+'_'+to_langs+'/' + filename + '/'
 
             base64image = imageTobase64(PATH + filename)
             params_ocr = {
