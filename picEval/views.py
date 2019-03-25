@@ -105,12 +105,13 @@ def cancel(request):
         task_id = request.POST.get('task_id')
         data=ImageTaskInfo.objects.get(id=task_id)
         if data.env_type==int(2):
-            print()
             os.kill(int(data.pid),signal.SIGTERM)
             ImageTaskInfo.objects.filter(id=task_id).update(end_time=get_now_time(),status=6)
 
         else:
-            ImageTaskInfo.objects.filter(id=task_id).update(status=6)
+            # ImageTaskInfo.objects.filter(id=task_id).update(status=6)
+            os.kill(int(data.pid), signal.SIGTERM)
+            ImageTaskInfo.objects.filter(id=task_id).update(end_time=get_now_time(), status=6)
     except Exception as e:
         ret['error'] = 'error:' + str(e)
         ret['status'] = False
@@ -148,9 +149,9 @@ def detail(request):
         page_str=page_obj.page_str('/picEval/pic/detail/?num='+task_id+'&page=')
 
 
-        for e in result:
+        # for e in result:
             # print(json.loads(e.result))
-            x = json.loads(e.result)
+            # x = json.loads(e.result)
 
             # for i in x:
             #     for k, v in i.items():
