@@ -107,9 +107,9 @@
         var testPath='http://webqa.eval.nm.ted'+lst[item]['fields']['testpath']
         var basePath='http://webqa.eval.nm.ted'+lst[item]['fields']['basepath']
         table_body=table_body+'<tr><td>'+lst[item]['pk']+'</td><td><a target="_blank" class="testImg"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a class="testPath" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a class="basePath" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
-        sub_table_title='<tr><td><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
+        sub_table_title='<tr><td colspan="4"><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
         sub_table_body=''
-        sub_table_end='</table></td></tr>'
+        sub_table_end='</table></tr>'
         for(k in lst[item]['fields']){
             if(k=='result'){
                 json_str=JSON.parse(lst[item]['fields'][k])
