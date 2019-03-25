@@ -384,6 +384,7 @@
                     <th>failed</th>
                     <th>finished</th>
                     <th>status</th>
+                    <th>备注</th>
                     <th>ctrl</th>
                     <th>操作</th>
 
@@ -439,6 +440,7 @@
                         <font color="orange">port-error</font>
                         {% endifequal %}
                     </td>
+                    <td>{{ item.testtag }}</td>
                     <td>
                         <a href="/picEval/pic/detail/?num={{ item.id }}">详情</a>
                     </td>
