@@ -253,6 +253,8 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
 
             else:
                 failed += 1
+                insert_resultInfo(rankInfo=0, result='', test_Img1=origin_secpath + from_langs + '/' + filename,basepath='null', testpath='null', test_issuccess=0,
+                                  base_issuccess=0, filename=filename)
 
         set_endStatus(status=9)
 
