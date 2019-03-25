@@ -444,7 +444,7 @@
                     <td>
                         <a href="/picEval/pic/detail/?num={{ item.id }}">详情</a>
                     </td>
-                    <td><button task_id="{{ item.id }}" id="cancel">取消</button></td>
+                    <td><button task_id="{{ item.id }}" class="cancel">取消</button></td>
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -620,8 +620,9 @@
     })
 
 
-    $('#cancel').click(function () {
+    $('.cancel').click(function () {
             var task_id = $(this).attr('task_id');
+            console.log(task_id)
             $.ajax({
                 type: "POST",
                 url: "/picEval/pic/cancel",
