@@ -113,7 +113,7 @@ def get_imagetaskinfo():
     return data
 
 def update_imageTaskInfo(sum_num,finished,failed,img_diff_count,text_diff_count,text_base_count,path):
-    sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d',status=4 ,path='%s' where id=%d" % (
+    sql_image = "UPDATE %s set end_time='%s', sum_num='%d',finished='%d',failed = '%d',img_diff_count='%d',text_diff_count = '%d',text_base_count = '%d' ,path='%s' where id=%d" % (
         database_image, get_now_time(), sum_num, finished, failed, img_diff_count, text_diff_count,text_base_count, path,mission_id)
 
     try:
@@ -135,8 +135,17 @@ def insert_resultInfo(rankInfo,result,test_Img1,basepath,testpath,test_issuccess
     return 0
 
 
-def save_status(sum_num, status):
+def set_startStatus(sum_num, status):
     sql = "UPDATE %s set start_time='%s', sum_num='%d', status='%d' where id=%d" % (database_image, get_now_time(),sum_num, status, mission_id)
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except Exception as e:
+        update_errorlog("[%s] Update status [%d] failed. \n" % (get_now_time(), status))
+    return 0
+
+def set_endStatus(status):
+    sql = "UPDATE %s set end_time='%s', status='%d' where id=%d" % (database_image, get_now_time(), status, mission_id)
     try:
         cursor.execute(sql)
         db.commit()
@@ -181,7 +190,7 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
     status_data=get_imagetaskinfo()
 
     if status_data[3] == int(7):
-        save_status(sum_num, status=8)
+        set_startStatus(sum_num, status=8)
         update_errorlog("[%s] Port deploy: Post is running. \n" % (get_now_time()))
 
         path = rootpath + dest_secpath + str(mission_id)
@@ -245,13 +254,15 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
             else:
                 failed += 1
 
+        set_endStatus(status=9)
+
         status_data = get_imagetaskinfo()
         if status_data[3] == 9:
             update_errorlog("[%s] Port deploy: The post [%s] to [%s] has been completed. \n" % (get_now_time(), from_langs, to_langs))
         return 1
     else:
         update_errorlog("[%s] Port deploy: Status is not assigned. \n" % (get_now_time()))
-        save_status(sum_num,status=10)
+        set_endStatus(status=10)
         return 0
 
 
