@@ -247,13 +247,11 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
                 # db.commit()
 
                 insert_resultInfo(rankInfo, result, test_Img1, basepath, testpath, test_issuccess, base_issuccess,filename)
-
                 update_imageTaskInfo(sum_num, finished, failed, img_diff_count, text_diff_count, text_base_count, path)
-
 
             else:
                 failed += 1
-                insert_resultInfo(rankInfo=0, result='', test_Img1=origin_secpath + from_langs + '/' + filename,basepath='null', testpath='null', test_issuccess=0,
+                insert_resultInfo(rankInfo=0, result='null', test_Img1=origin_secpath + from_langs + '/' + filename,basepath='null', testpath='null', test_issuccess=0,
                                   base_issuccess=0, filename=filename)
 
         set_endStatus(status=9)
@@ -312,31 +310,6 @@ def post_image(from_langs, to_langs, base64image, url, filename, type, isStorePa
     else:
         update_errorlog("[%s] [%s] of the image api [%s] failed. \n" % (get_now_time(), filename, type))
         return testImg, path
-
-
-
-def distance(result_test, result_base):
-    json = {
-        'img_diff_count': 1,
-        'text_diff_count': 4,
-        'text_base_count': 5,
-        'sum_distance': 1,
-        'rankInfo': 2,
-        'result': [
-            {
-                "basecontent": "aaa",
-                "testcontent": "bbb",
-                "distance": "ccc",
-            }, {
-                "basecontent": "ddd",
-                "testcontent": "eee",
-                "distance": "fff",
-            }
-        ]
-    }
-
-    return json
-
 
 if __name__ == '__main__':
     # post_ocr('http://api.image.sogou/v1/ocr/basic.json', 'http://api.image.sogou/v1/ocr/basic.json', 'zh-CHS')
