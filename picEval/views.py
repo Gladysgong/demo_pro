@@ -70,7 +70,7 @@ def post1(request):
                 for each in deploy_check:
                     resp = ImageTaskInfo.objects.create(env_type=env_type, langs=each,
                                                     svIP=deploy_ip, svPath=deploy_path,
-                                                    testtag=deploy_tag)
+                                                    testtag=deploy_tag,status=1)
                 return HttpResponse(json.dumps(ret))
             else:
                 print('未知评测类型！')
