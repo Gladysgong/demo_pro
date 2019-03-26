@@ -35,7 +35,7 @@ class ImageTaskInfo(models.Model):
     svIP = models.CharField(max_length=50, default="")
     svUser = models.CharField(max_length=100, default="")
     svPass = models.CharField(max_length=100, default="")
-    svPath = models.CharField(max_length=1000, default="")
+    svPath = models.TextField(default="")
 
     sourceIP = models.CharField(max_length=50, default="")
     sourceUser = models.CharField(max_length=100, default="")
