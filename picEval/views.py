@@ -134,7 +134,7 @@ def detail(request):
         else:
             rowRate=round(float(image.text_diff_count/image.text_base_count),2)
 
-        result = ResultInfo.objects.filter(taskid_id=task_id).order_by('-rankInfo')
+        result = ResultInfo.objects.filter(taskid_id=task_id).order_by('-rankInfo','-test_status')
         data['reslut_lst'] = json.loads(serializers.serialize("json", result))
         # print('data',data)
 
