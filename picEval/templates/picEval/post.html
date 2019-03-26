@@ -496,7 +496,7 @@
                         'port_baseimgip': port_baseimgip,
                         'port_langs': port_langs,
                         'port_tag': port_tag,
-                        'env_type': 2,
+                        'env_type': 2
                     },
                     dataType: 'JSON',
                     success: function (ret) {
@@ -509,16 +509,19 @@
 
                 })
             } else {
-                if (port_testip == '') {
-                    $('#error_xml').text('test-IP不可为空');
-                } else if (port_baseip == '') {
-                    $('#error_xml').text('base-IP不可为空');
+                if (port_testocrip == '') {
+                    $('#error_xml').text('test-ocr-IP不可为空');
+                } else if (port_testimgip == '') {
+                    $('#error_xml').text('test-img-IP不可为空');
+                }else if (port_baseocrip == '') {
+                    $('#error_xml').text('base-ocr-IP不可为空');
+                } else if (port_baseimgip == '') {
+                    $('#error_xml').text('base-img-IP不可为空');
                 } else {
                     $('#error_xml').text('未知错误');
                 }
             }
         } else {
-            console.log('false')
 
             var jsons = {}
             jsons.deploy0 = ''
@@ -562,6 +565,16 @@
                 jsons.deploy9 = jsons.deploy9 + $(this).val() + ','
             })
             console.log(jsons)
+
+            var langs=jsons.deploy0.split(',')
+            var lang1=langs[1]
+            var lang2=langs[2].split('/')
+            lang2=lang2.pop()
+
+            tf_ocr_daemon=jsons['deploy1'].split(',')
+            tf_ocr_daemon2=tf_ocr_daemon[2]
+            tf_ocr_daemon3=tf_ocr_daemon[3].split('/')[-1]
+
             var obj1=JSON.stringify(jsons)
             console.log(obj1)
 
@@ -573,7 +586,8 @@
             var deploy_tag = $('#deploy_tag').val()
 
             if (deploy_check != '') {
-                $.ajax({
+                if(lang1==' ' && lang2 !=' '){
+                    $.ajax({
                     type: "POST",
                     url: "/picEval/pic/",
                     async: true,
@@ -587,12 +601,36 @@
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-                            location.reload()
+//                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
-                    }
-                })
+                    }})
+                }
+                else if((lang1!=' ' && lang2 =='langs')){
+                    $.ajax({
+                    type: "POST",
+                    url: "/picEval/pic/",
+                    async: true,
+                    traditional: true,
+                    data: {
+                        'deploy_path': obj1,
+                        'deploy_check': deploy_check,
+                        'deploy_tag': deploy_tag,
+                        'env_type': 1
+                    },
+                    dataType: 'JSON',
+                    success: function (ret) {
+                        if (ret.status) {
+//                            location.reload()
+                        } else {
+                            $('#error_xml').text(ret.error)
+                        }
+                    }})
+                }else {
+                    $('#error_xml').text('请检查langs！');
+                }
+
             } else {
                 if (deploy_check == '') {
                     $('#error_xml').text('语种不可为空');
