@@ -98,7 +98,7 @@
 
     var lst={{data|safe}}
     console.log(lst)
-    table_title='<table class="table"><thead><tr><th>id</th><th>原始图片</th><th>Test回贴图</th><th>Base回贴图</th></tr></thead><tbody>'
+    table_title='<table class="table"><thead><tr><th>id-name</th><th>原始图片</th><th>Test回贴图</th><th>Base回贴图</th></tr></thead><tbody>'
     table_end='</tbody></table>'
     table_body=''
     for (item in lst){
@@ -109,7 +109,7 @@
         var basePath=prefix+lst[item]['fields']['basepath']
 
 
-        table_body=table_body+'<tr><td>'+lst[item]['pk']+'</td><td><a href="'+testImg+'" target="_blank"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a href="'+testPath+'" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a href="'+basePath+'" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
+        table_body=table_body+'<tr><td>'+lst[item]['pk']+'-'+lst[item]['fields']['filename']+'</td><td><a href="'+testImg+'" target="_blank"><img src="'+lst[item]['fields']['testImg']+'"/></a>'+'</td><td><a href="'+testPath+'" target="_blank"><img src="'+lst[item]['fields']['testpath']+'"/></a>'+'</td><td><a href="'+basePath+'" target="_blank"><img src="'+lst[item]['fields']['basepath']+'"/></a>'+'</td>'
         sub_table_title='<tr><td colspan="4"><table class="table"><thead><tr><th>test原文</th><th>base原文</th><th>编辑距离</th></tr></thead>'
         sub_table_body=''
         sub_table_end='</table></tr>'
