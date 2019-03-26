@@ -586,7 +586,7 @@
             var deploy_tag = $('#deploy_tag').val()
 
             if (deploy_check != '') {
-                if(lang1==' ' && lang2 !=' '){
+                if(lang1=='' && lang2 ==''){
                     $.ajax({
                     type: "POST",
                     url: "/picEval/pic/",
@@ -601,13 +601,13 @@
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-//                            location.reload()
+                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
                     }})
                 }
-                else if((lang1!=' ' && lang2 =='langs')){
+                else if((lang1!='' && lang2 =='langs')){
                     $.ajax({
                     type: "POST",
                     url: "/picEval/pic/",
@@ -622,7 +622,7 @@
                     dataType: 'JSON',
                     success: function (ret) {
                         if (ret.status) {
-//                            location.reload()
+                            location.reload()
                         } else {
                             $('#error_xml').text(ret.error)
                         }
