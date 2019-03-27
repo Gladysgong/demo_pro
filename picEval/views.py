@@ -129,10 +129,16 @@ def detail(request):
             errorRate=0
         else:
             errorRate=round(float(image.failed/image.finished),2)
+
         if image.text_base_count==int(0) or image.text_diff_count==int(0):
             rowRate=0
         else:
             rowRate=round(float(image.text_diff_count/image.text_base_count),2)
+
+        if image.img_diff_count==int(0) or image.finished==int(0)==int(0):
+            imgRate=0
+        else:
+            imgRate=round(float(image.img_diff_count/image.finished),2)
 
         result = ResultInfo.objects.filter(taskid_id=task_id).order_by('-rankInfo','-test_status')
         data['reslut_lst'] = json.loads(serializers.serialize("json", result))
@@ -156,7 +162,7 @@ def detail(request):
 
         # print('result',result)
         return render(request, 'picEval/detail.html',
-                      {'data': final, 'Result': result, 'ImageTask': imageTask,'error':errorRate,'row':rowRate,'page_str':page_str})
+                      {'data': final, 'Result': result, 'ImageTask': imageTask,'error':errorRate,'row':rowRate,'img':imgRate,'page_str':page_str})
 
 
 def log(request, task_id):
