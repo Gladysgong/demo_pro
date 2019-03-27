@@ -185,7 +185,6 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
     img_diff_count = 0
     text_diff_count = 0
     text_base_count = 0
-    print('sum', sum_num)
 
     status_data=get_imagetaskinfo()
 
