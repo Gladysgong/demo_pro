@@ -101,7 +101,7 @@ def update_errorlog(log):
 
 
 def get_imagetaskinfo():
-    sql = "SELECT svIp, langs, env_type, status ,svPath FROM %s where id='%d'" % (database_image, mission_id)
+    sql = "SELECT svIp, langs, env_type, status FROM %s where id='%d'" % (database_image, mission_id)
     cursor.execute(sql)
     data = cursor.fetchone()
     try:
@@ -185,12 +185,9 @@ def post_ocr(mission_id, test_ocrip, base_ocrip, test_imgip, base_imgip, from_la
     img_diff_count = 0
     text_diff_count = 0
     text_base_count = 0
+    print('sum', sum_num)
 
     status_data=get_imagetaskinfo()
-
-    parameters = json.loads(status_data[4])
-    for k, v in parameters.items():
-        update_errorlog("[%s] send parameters: [%s]---[%s]. \n" % (get_now_time(), k, v))
 
     if status_data[3] == int(7):
         set_startStatus(sum_num, status=8)
