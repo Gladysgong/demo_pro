@@ -12,6 +12,7 @@ urlpatterns = [
     # re_path(r'^pic/detail_(?P<task_id>\d+).html$', views.detail),
     re_path(r'^pic/detail/$', views.detail),
     re_path(r'^pic/log_(?P<task_id>\d+).html$', views.log),
+    re_path(r'^pic/help.html$', views.help1),
     # re_path(r'^debug/del', views.debug_del),
     # re_path(r'^debug/diff$', views.debug_diff),
 

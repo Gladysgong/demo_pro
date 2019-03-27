@@ -13,6 +13,10 @@ from picEval.task import get_pic_ocr
 # Create your views here.
 # def picEval_detail():
 
+def help1(request):
+    if request.method == 'GET':
+        return render(request, 'picEval/help.html')
+
 def post1(request):
     if request.method == 'GET':
         page = request.GET.get('page')
