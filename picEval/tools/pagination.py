@@ -85,7 +85,7 @@ class Page:
         page_list.append(nex)
 
         jump = """
-        <input type='text' class='go' /><a class='page' onclick=jumpTo(this,"%s")>&nbsp;&nbspGo</a>
+        <input type='text' class='go' /><a class='page' style='cursor:pointer' onclick=jumpTo(this,"%s")>&nbsp;&nbspGo</a>
         <script>
             function jumpTo(ths,base){
                 var val = ths.previousSibling.value;
