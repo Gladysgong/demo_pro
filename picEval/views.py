@@ -25,7 +25,7 @@ def post1(request):
             curent_page = int(page)
         try:
             result_list = ImageTaskInfo.objects.order_by('-id')
-            page_obj = pagination.Page(curent_page, len(result_list), 15, 5)
+            page_obj = pagination.Page(curent_page, len(result_list), 15, 10)
             data = result_list[page_obj.start:page_obj.end]
             page_str = page_obj.page_str("/picEval/pic?page=")
         except Exception as e:
