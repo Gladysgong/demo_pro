@@ -123,21 +123,29 @@ def GetEditDistance(test_res_info,base_res_info,match_list):
             test_matched_idx.add(i)
             base_matched_idx.add(j)
         for idx, info in enumerate(test_res_info):
+            res_member = {}
             if idx in test_matched_idx:
                 continue
             edit_distance=Distance(info[0],"")
             img_diff=1
             sum_distance+=edit_distance
             text_diff+=1
-            res.append([info[0],"",edit_distance])
+            res_member['basecontent']=info[0]
+            res_member['testcontent']=""
+            res_member['distance']=edit_distance
+            res.append(res_member)
         for idx, info in enumerate(base_res_info):
+            res_member = {}
             if idx in base_matched_idx:
                 continue
             edit_distance = Distance("",info[0])
             img_diff = 1
             sum_distance += edit_distance
             text_diff += 1
-            res.append([ "",info[0], edit_distance])
+            res_member['basecontent']=""
+            res_member['testcontent']=info[0]
+            res_member['distance']=edit_distance
+            res.append(res_member)
     data["img_diff_count"]=img_diff
     data["text_base_count"]=base_cont_count
     data["text_diff_count"]=text_diff
@@ -168,6 +176,7 @@ if __name__ == '__main__':
     header = {'Content-Type': "application/x-www-form-urlencoded"}
     data1 = {'lang': 'ja',
              'image': image,
+             'direction_detect':'true'
              }
     data2 = {'from': 'ja',
              'to': 'zh-CHS',
